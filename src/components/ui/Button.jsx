@@ -1,44 +1,39 @@
 import { motion } from "framer-motion";
 
-
-export default function Button({
+export const Button = ({
   children,
   className = "",
   onClick,
-}) {
-
+  type = "button",
+  disabled = false,
+  ...props
+}) => {
   return (
-
     <motion.button
-
-      whileHover={{
-        scale: 1.03
-      }}
-
-      whileTap={{
-        scale: 0.97
-      }}
-
+      whileHover={!disabled ? { scale: 1.03 } : {}}
+      whileTap={!disabled ? { scale: 0.97 } : {}}
       onClick={onClick}
-
+      type={type}
+      disabled={disabled}
       className={`
         bg-white
         text-black
         font-semibold
         rounded-full
-        px-8
-        py-4
         transition
         duration-300
-        hover:bg-gray-200
+        focus:outline-none
+        focus:ring-2
+        focus:ring-offset-2
+        focus:ring-gray-500
+        hover:enabled:bg-gray-200
+        disabled:opacity-60
+        disabled:cursor-not-allowed
         ${className}
       `}
+      {...props}
     >
-
       {children}
-
     </motion.button>
-
   );
-
-}
+};

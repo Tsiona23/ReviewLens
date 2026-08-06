@@ -1,17 +1,21 @@
-import { Routes, Route } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
-import Home from "../pages/Home";
-import About from "../pages/About";
-import Loading from "../pages/Loading";
-import Results from "../pages/Results";
+import { MainLayout } from "../components/layout/MainLayout";
+import { Home } from "../pages/Home";
+import { About } from "../pages/About";
+import { Results } from "../pages/Results";
+import { ErrorPage } from "../pages/ErrorPage";
+import { resultsLoader } from "./resultsLoader";
 
-export default function AppRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/loading" element={<Loading />} />
-      <Route path="/results" element={<Results />} />
-    </Routes>
-  );
-}
+export const router = createBrowserRouter([
+  {
+    element: <MainLayout />, // Pages with Navbar and Footer
+    errorElement: <ErrorPage />, // Catches errors in child routes (404s, loader errors, etc.)
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/about", element: <About /> },
+      { path: "/results", element: <Results />, loader: resultsLoader },
+    ],
+  }, // The ErrorPage on MainLayout will catch 404s within the layout
+  { path: "*", element: <ErrorPage /> }, // This is a final catch-all for routes outside the MainLayout structure
+]);

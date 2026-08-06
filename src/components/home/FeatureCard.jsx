@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import Card from "../ui/Card";
+import { Card } from "../ui/Card";
 
-export default function FeatureCard({ feature, index }) {
+export const FeatureCard = ({ feature, index }) => {
   const Icon = feature.icon;
 
   return (
@@ -31,4 +31,4 @@ export default function FeatureCard({ feature, index }) {
       </Card>
     </motion.div>
   );
-}
+};

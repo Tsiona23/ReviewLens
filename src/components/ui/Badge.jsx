@@ -1,30 +1,14 @@
-export default function Badge({
- children
-}){
+export const Badge = ({ children, status = 'neutral' }) => {
+  const baseClasses = 'px-3 py-1 text-sm font-semibold rounded-full inline-block';
+  const statusClasses = {
+    positive: 'bg-green-100 text-green-800',
+    negative: 'bg-red-100 text-red-800',
+    neutral: 'bg-gray-100 text-gray-800',
+  };
 
-return (
-
-<span
-
-className="
-inline-flex
-items-center
-rounded-full
-border
-border-[#2A2A2A]
-bg-[#111111]
-px-4
-py-2
-text-sm
-text-[#BDBDBD]
-"
-
->
-
-{children}
-
-</span>
-
-)
-
-}
+  return (
+    <span className={`${baseClasses} ${statusClasses[status]}`}>
+      {children}
+    </span>
+  );
+};

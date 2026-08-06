@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
-import Container from "../ui/Container";
-import Button from "../ui/Button";
-import PreviewCard from "./PreviewCard";
+import { Container } from '../ui/Container';
+import { Button } from '../ui/Button';
+import { PreviewCard } from './PreviewCard';
 
-export default function Hero() {
+export const Hero = () => {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
 
@@ -15,8 +15,8 @@ export default function Hero() {
 
   const validateUrl = (value) => {
     return (
-      value.includes("play.google.com") ||
-      value.includes("apps.apple.com")
+      value.includes('play.google.com') ||
+      value.includes('apps.apple.com')
     );
   };
 
@@ -24,7 +24,7 @@ export default function Hero() {
     if (!url.trim()) {
       setError("Please paste an app URL.");
       return;
-    }
+    } 
 
     if (!validateUrl(url)) {
       setError("Please enter a valid Google Play or App Store URL.");
@@ -32,118 +32,116 @@ export default function Hero() {
     }
 
     localStorage.setItem("reviewlens-url", url);
-
-    navigate("/loading");
+    // Navigate directly to the results page; the loader will handle fetching.
+    navigate(`/results?url=${encodeURIComponent(url)}`);
   };
 
   return (
-    <section className="min-h-screen flex items-center">
-      <Container>
+    <section className="relative overflow-hidden min-h-screen flex items-center">
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: 
+            "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
+      <div className="relative z-10 w-full">
+        <Container>
+          <motion.div
+            initial={{ opacity: 0, y: 35 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/5 px-4 py-2 text-sm text-gray-600">
+              <Sparkles size={16} />
+              AI-powered review analysis
+            </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 35 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="max-w-4xl mx-auto text-center"
-        >
+            <h1 className="mt-8 text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+              Know if an app is
+              <br />
+              worth downloading
+              <br />
+              in seconds.
+            </h1>
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#2A2A2A] bg-[#111111] px-4 py-2 text-sm text-[#BDBDBD]">
-
-            <Sparkles size={16} />
-
-            AI-powered review analysis
-
-          </div>
-
-          <h1 className="mt-8 text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
-
-            Know if an app is
-            <br />
-            worth downloading
-            <br />
-            in seconds.
-
-          </h1>
-
-          <p className="mt-8 text-lg text-[#BDBDBD] max-w-2xl mx-auto leading-8">
-
-            ReviewLens analyzes thousands of app reviews using AI and
-            delivers concise summaries, pros, cons, sentiment analysis,
-            and personalized recommendations.
-
-          </p>
-
-          <div className="mt-12 flex flex-col md:flex-row gap-4">
-
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => {
-                setUrl(e.target.value);
-                setError("");
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAnalyze();
-                }
-              }}
-              placeholder="Paste a Google Play or App Store URL..."
-              className={`
-                flex-1
-                h-16
-                rounded-full
-                border
-                bg-[#111111]
-                px-6
-                text-white
-                outline-none
-                transition
-                ${
-                  error
-                    ? "border-red-500"
-                    : "border-[#2A2A2A] focus:border-white"
-                }
-              `}
-            />
-
-            <Button
-              onClick={handleAnalyze}
-              className="h-16 px-8 flex items-center justify-center gap-2"
-            >
-              Analyze Reviews
-
-              <ArrowRight size={18} />
-            </Button>
-
-
-          </div>
-
-          {error && (
-            <p className="mt-4 text-sm text-red-400">
-              {error}
+            <p className="mt-8 text-lg text-gray-600 max-w-2xl mx-auto leading-8">
+              ReviewLens analyzes thousands of app reviews using AI and
+              delivers concise summaries, pros, cons, sentiment analysis,
+              and personalized recommendations.
             </p>
-          )}
 
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <div className="mt-12 flex flex-col md:flex-row gap-4">
+              <input
+                id="app-url-input"
+                type="text"
+                aria-label="App URL Input"
+                value={url}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  setError("");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleAnalyze();
+                  }
+                }}
+                placeholder="Paste a Google Play or App Store URL..."
+                aria-describedby="url-error"
+                className={`
+                  flex-1
+                  h-16
+                  rounded-full
+                  border border-gray-300
+                  bg-white
+                  px-6
+                  text-gray-900
+                  outline-none
+                  transition
+                  ${
+                    error
+                      ? "border-red-500"
+                      : "focus:border-gray-900"
+                  }
+                `}
+              />
 
-            <span className="rounded-full border border-[#2A2A2A] px-4 py-2 text-sm text-[#BDBDBD]">
-              Google Play
-            </span>
+              <Button
+                onClick={handleAnalyze}
+                className="h-16 px-8 flex items-center justify-center gap-2"
+              > 
+                Analyze
+                <ArrowRight size={18} />
+              </Button>
+            </div>
 
-            <span className="rounded-full border border-[#2A2A2A] px-4 py-2 text-sm text-[#BDBDBD]">
-              App Store
-            </span>
+            {error && (
+              <p
+                id="url-error"
+                className="mt-4 text-sm text-red-400"
+                aria-live="polite"
+              >{error}</p>
+            )}
 
-            <span className="rounded-full border border-[#2A2A2A] px-4 py-2 text-sm text-[#BDBDBD]">
-              AI Summary
-            </span>
+            <div className="mt-10 flex flex-wrap justify-center gap-3">
+              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-600">
+                Google Play
+              </span>
 
-          </div>
+              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-600">
+                App Store
+              </span>
 
-        </motion.div>
-
-      </Container>
-      <PreviewCard />
+              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-600">
+                AI Summary
+              </span>
+            </div>
+          </motion.div>
+        </Container>
+        <PreviewCard />
+      </div>
     </section>
   );
-}
+};

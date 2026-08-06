@@ -1,12 +1,12 @@
 import { Check, X } from "lucide-react";
 import { motion } from "framer-motion";
 
-import Card from "../ui/Card";
-import Badge from "../ui/Badge";
+import { Card } from "../ui/Card";
+import { Badge } from "../ui/Badge";
 
 import { previewData } from "../../data/preview";
 
-export default function PreviewCard() {
+export const PreviewCard = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -17,9 +17,14 @@ export default function PreviewCard() {
       }}
       className="mt-16"
     >
-      <Card className="max-w-4xl mx-auto p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="mb-6 flex flex-col gap-2 text-center sm:text-left">
+          <p className="text-sm uppercase tracking-[0.24em] text-gray-400">Live Preview</p>
+          <h2 className="text-3xl font-bold">ChatGPT Card</h2>
+        </div>
+        <Card className="p-8">
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
           <div>
             <h2 className="text-2xl font-bold">
