@@ -5,14 +5,14 @@ export const Navbar = () => {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-gray-700 bg-black/80 backdrop-blur-sm">
       <Container className="flex h-16 items-center justify-between">
-        <Link to="/" className="text-xl font-bold">
+        <Link to="/" className="text-xl font-semibold tracking-[0.04em] text-white">
           ReviewLens
         </Link>
-        <nav className="flex items-center gap-6 text-sm">
+        <nav className="flex items-center gap-8 text-sm">
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `transition-colors hover:text-gray-300 ${isActive ? 'text-white' : 'text-gray-400'}`
+              `transition-colors duration-200 ${isActive ? 'text-white' : 'text-gray-400 hover:text-gray-200'}`
             }
           >
             Home
@@ -20,7 +20,7 @@ export const Navbar = () => {
           <NavLink
             to="/about"
             className={({ isActive }) =>
-              `transition-colors hover:text-gray-300 ${isActive ? 'text-white' : 'text-gray-400'}`
+              `transition-colors duration-200 ${isActive ? 'text-white' : 'text-gray-400 hover:text-gray-200'}`
             }
           >
             About
@@ -29,7 +29,7 @@ export const Navbar = () => {
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-gray-300 text-gray-400"
+            className="transition-colors duration-200 text-gray-400 hover:text-gray-200"
           >
             GitHub
           </a>

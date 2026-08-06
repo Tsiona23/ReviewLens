@@ -2,6 +2,7 @@ export const previewData = {
   name: "ChatGPT",
   developer: "OpenAI",
   rating: 4.8,
+  confidence: 96,
   verdict: "Worth Downloading",
 
   summary:
