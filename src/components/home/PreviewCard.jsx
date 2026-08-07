@@ -2,7 +2,6 @@ import { Check, X } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Card } from "../ui/Card";
-import { Badge } from "../ui/Badge";
 
 import { previewData } from "../../data/preview";
 
