@@ -19,56 +19,56 @@ export const PreviewCard = () => {
     >
       <div className="max-w-4xl mx-auto">
         <div className="mb-6 flex flex-col gap-2 text-center sm:text-left">
-          <p className="text-sm uppercase tracking-[0.24em] text-gray-400">Live Preview</p>
-          <h2 className="text-3xl font-bold text-white">ChatGPT Card</h2>
+          <p className="text-sm uppercase tracking-[0.24em] text-blue-300">Live Preview</p>
+          <h2 className="text-3xl font-bold text-blue-300">ChatGPT Card</h2>
         </div>
 
         <Card className="p-8 bg-black/70 border border-gray-900 shadow-sm">
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div>
-                <div className="inline-flex items-center gap-3 rounded-full border border-gray-800 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.28em] text-gray-400">
+                <div className="inline-flex items-center gap-3 rounded-full border border-gray-800 bg-black/80 px-3 py-2 text-xs uppercase tracking-[0.28em] text-blue-300">
                   AI SUMMARY
                 </div>
-                <h2 className="mt-4 text-2xl font-bold text-white">{previewData.name}</h2>
-                <p className="mt-2 text-sm text-gray-400">{previewData.developer}</p>
+                <h2 className="mt-4 text-2xl font-bold text-blue-300">{previewData.name}</h2>
+                <p className="mt-2 text-sm text-blue-300">{previewData.developer}</p>
               </div>
               <div className="grid grid-cols-2 gap-4 text-right md:grid-cols-2">
-                <div className="rounded-3xl border border-gray-900 bg-white/5 p-4">
-                  <p className="text-3xl font-semibold text-white">{previewData.rating}★</p>
-                  <p className="mt-1 text-sm text-gray-400">Rating</p>
+                <div className="rounded-3xl border border-gray-900 bg-black/80 p-4">
+                  <p className="text-3xl font-semibold text-blue-300">{previewData.rating}★</p>
+                  <p className="mt-1 text-sm text-blue-300">Rating</p>
                 </div>
-                <div className="rounded-3xl border border-gray-900 bg-white/5 p-4">
-                  <p className="text-3xl font-semibold text-white">{previewData.confidence}%</p>
-                  <p className="mt-1 text-sm text-gray-400">Confidence</p>
+                <div className="rounded-3xl border border-gray-900 bg-black/80 p-4">
+                  <p className="text-3xl font-semibold text-blue-300">{previewData.confidence}%</p>
+                  <p className="mt-1 text-sm text-blue-300">Confidence</p>
                 </div>
               </div>
             </div>
 
             <div className="mt-8">
-              <h3 className="font-semibold mb-3 text-white">AI Summary</h3>
-              <p className="text-gray-400 leading-7">{previewData.summary}</p>
+              <h3 className="font-semibold mb-3 text-blue-300">AI Summary</h3>
+              <p className="text-black leading-7">{previewData.summary}</p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8 mt-10">
               <div>
-                <h3 className="font-semibold text-white mb-4">Pros</h3>
+                <h3 className="font-semibold text-blue-300 mb-4">Pros</h3>
                 <div className="space-y-3">
                   {previewData.pros.map((item) => (
                     <div key={item} className="flex items-center gap-3">
                       <Check size={18} className="text-green-400" />
-                      <span className="text-gray-300">{item}</span>
+                      <span className="text-black">{item}</span>
                     </div>
                   ))}
                 </div>
               </div>
               <div>
-                <h3 className="font-semibold text-white mb-4">Cons</h3>
+                <h3 className="font-semibold text-blue-300 mb-4">Cons</h3>
                 <div className="space-y-3">
                   {previewData.cons.map((item) => (
                     <div key={item} className="flex items-center gap-3">
                       <X size={18} className="text-red-400" />
-                      <span className="text-gray-300">{item}</span>
+                      <span className="text-black">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -76,17 +76,17 @@ export const PreviewCard = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-4 mt-10">
-              <Card className="text-center bg-white/5 border border-gray-900">
-                <p className="text-3xl font-bold text-white">{previewData.sentiment.positive}%</p>
-                <p className="mt-1 text-sm text-gray-400">Positive</p>
+              <Card className="text-center bg-black/80 border border-gray-900">
+                <p className="text-3xl font-bold text-blue-300">{previewData.sentiment.positive}%</p>
+                <p className="mt-1 text-sm text-blue-300">Positive</p>
               </Card>
-              <Card className="text-center bg-white/5 border border-gray-900">
-                <p className="text-3xl font-bold text-white">{previewData.sentiment.neutral}%</p>
-                <p className="mt-1 text-sm text-gray-400">Neutral</p>
+              <Card className="text-center bg-black/80 border border-gray-900">
+                <p className="text-3xl font-bold text-blue-300">{previewData.sentiment.neutral}%</p>
+                <p className="mt-1 text-sm text-blue-300">Neutral</p>
               </Card>
-              <Card className="text-center bg-white/5 border border-gray-900">
-                <p className="text-3xl font-bold text-white">{previewData.sentiment.negative}%</p>
-                <p className="mt-1 text-sm text-gray-400">Negative</p>
+              <Card className="text-center bg-black/80 border border-gray-900">
+                <p className="text-3xl font-bold text-blue-300">{previewData.sentiment.negative}%</p>
+                <p className="mt-1 text-sm text-blue-300">Negative</p>
               </Card>
             </div>
           </div>

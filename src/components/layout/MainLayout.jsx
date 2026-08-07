@@ -5,7 +5,7 @@ import { SkipToContent } from './SkipToContent';
 
 export const MainLayout = () => {
   return (
-    <div className="flex min-h-screen flex-col bg-black text-white">
+    <div className="flex min-h-screen flex-col bg-black text-blue-300">
       <SkipToContent />
       <Navbar />
       <main id="main-content" className="grow">

@@ -12,10 +12,10 @@ export const StepCard = ({ step, index }) => {
       }}
       viewport={{ once: true }}
     >
-      <Card className="h-full p-8 bg-transparent border-gray-800 text-white">
+      <Card className="h-full p-8 bg-transparent border-gray-800 text-blue-300">
         <div className="text-5xl font-bold text-gray-700 mb-4">{step.stepNumber}</div>
         <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-        <p className="text-gray-400 leading-7">{step.description}</p>
+        <p className="text-blue-300leading-7">{step.description}</p>
       </Card>
     </motion.div>
   );

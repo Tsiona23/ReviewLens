@@ -54,7 +54,7 @@ export const Hero = () => {
             transition={{ duration: 0.7 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/5 px-4 py-2 text-sm text-gray-600">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/5 px-4 py-2 text-sm text-blue-300">
               <Sparkles size={16} />
               AI-powered review analysis
             </div>
@@ -67,7 +67,7 @@ export const Hero = () => {
               in seconds.
             </h1>
 
-            <p className="mt-8 text-lg text-gray-600 max-w-2xl mx-auto leading-8">
+            <p className="mt-8 text-lg text-blue-300 max-w-2xl mx-auto leading-8">
               ReviewLens analyzes thousands of app reviews using AI and
               delivers concise summaries, pros, cons, sentiment analysis,
               and personalized recommendations.
@@ -95,9 +95,9 @@ export const Hero = () => {
                   h-16
                   rounded-full
                   border border-gray-300
-                  bg-white
+                  bg-white/20
                   px-6
-                  text-gray-900
+                  text-blue-300
                   outline-none
                   transition
                   ${
@@ -126,15 +126,15 @@ export const Hero = () => {
             )}
 
             <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-600">
+              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-blue-300">
                 Google Play
               </span>
 
-              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-600">
+              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-blue-300">
                 App Store
               </span>
 
-              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-600">
+              <span className="rounded-full border border-gray-300 px-4 py-2 text-sm text-blue-300">
                 AI Summary
               </span>
             </div>

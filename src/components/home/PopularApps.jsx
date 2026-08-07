@@ -17,7 +17,7 @@ export const PopularApps = () => {
   return (
     <section aria-labelledby="popular-apps-heading" className="py-20 bg-black">
       <Container>
-        <h2 id="popular-apps-heading" className="text-3xl font-bold text-center text-white mb-12">
+        <h2 id="popular-apps-heading" className="text-3xl font-bold text-center text-blue-300 mb-12">
           Popular Apps
         </h2>
         <motion.div
