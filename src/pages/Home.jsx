@@ -8,25 +8,68 @@ export const Home = () => {
   return (
     <>
       <Hero />
+
       <Features />
+
       <HowItWorks />
+
       <PopularApps />
-      <section className="py-20 border-t border-gray-900">
+
+      {/* CTA Section */}
+      <section className="relative py-24 border-t border-gray-900 overflow-hidden">
+
+        {/* Background Glow */}
+        <div className="absolute left-1/2 top-10 -translate-x-1/2 w-125 h-75 bg-blue-300/10 blur-[120px] rounded-full" />
+
         <Container>
-          <div className="rounded-4xl border border-gray-800 bg-white/5 p-10 text-center">
-            <p className="text-sm uppercase tracking-[0.32em] text-blue-300">Ready to analyze your next app?</p>
-            <h2 className="mt-4 text-4xl font-bold text-blue-300">Paste a URL and get instant insights.</h2>
-            <p className="mt-4 text-blue-300 max-w-2xl mx-auto">
-              ReviewLens turns thousands of app reviews into clear pros, cons, sentiment, and recommendations.
+          <div className="relative rounded-3xl border border-blue-300/20 bg-linear-to-br from-blue-300/10 via-gray-950 to-black p-10 md:p-14 text-center overflow-hidden">
+
+            <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-blue-300/50 to-transparent" />
+
+            <p className="text-sm uppercase tracking-[0.32em] text-blue-300">
+              Ready to analyze your next app?
             </p>
+
+            <h2 className="mt-5 text-3xl md:text-5xl font-bold text-white">
+              Paste a URL and get{" "}
+              <span className="text-blue-300">
+                instant insights.
+              </span>
+            </h2>
+
+            <p className="mt-5 max-w-2xl mx-auto text-gray-400 text-lg leading-relaxed">
+              ReviewLens transforms thousands of app reviews into clear
+              summaries, sentiment analysis, pros, cons, and actionable
+              recommendations.
+            </p>
+
+
             <a
               href="#app-url-input"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold text-black transition hover:bg-gray-200"
+              className="
+                mt-8
+                inline-flex
+                items-center
+                justify-center
+                rounded-full
+                bg-blue-300
+                px-8
+                py-4
+                text-sm
+                font-semibold
+                text-black
+                transition-all
+                duration-300
+                hover:bg-blue-200
+                hover:scale-105
+              "
             >
               Analyze Now
             </a>
+
           </div>
         </Container>
+
       </section>
     </>
   );

@@ -16,7 +16,7 @@ export const Button = ({
       type={type}
       disabled={disabled}
       className={`
-        bg-white
+        bg-blue-300
         text-black
         font-semibold
         rounded-full

@@ -9,7 +9,7 @@ export const Card = ({ children, className = '', variants = defaultCardVariants,
   return (
     <motion.div
       variants={variants}
-      className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm ${className}`}
+      className={`bg-black border border-gray-600 rounded-lg p-6 shadow-sm ${className}`}
       {...props}
     >
       {children}

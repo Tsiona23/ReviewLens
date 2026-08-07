@@ -1,11 +1,9 @@
-import { Check, X } from "lucide-react";
+import { Check, X, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Card } from "../ui/Card";
 
-import { previewData } from "../../data/preview";
-
-export const PreviewCard = () => {
+export const PreviewCard = ({ data }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -16,81 +14,233 @@ export const PreviewCard = () => {
       }}
       className="mt-16"
     >
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-6 flex flex-col gap-2 text-center sm:text-left">
-          <p className="text-sm uppercase tracking-[0.24em] text-blue-300">Live Preview</p>
-          <h2 className="text-3xl font-bold text-blue-300">ChatGPT Card</h2>
+
+      <Card
+        role="region"
+        aria-labelledby="preview-card-heading"
+        className="relative overflow-hidden p-8 bg-gray-950/80 border border-gray-800 shadow-xl"
+      >
+        {/* Glow */}
+        <div className="absolute -top-20 -right-20 w-60 h-60 bg-blue-300/10 blur-[100px] rounded-full" />
+
+
+        <div className="relative flex flex-col gap-10">
+
+
+          {/* Header */}
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+
+            <div>
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-blue-300/20 bg-blue-300/10 px-4 py-2 text-xs uppercase tracking-[0.28em] text-blue-300">
+
+                <Sparkles size={14} aria-hidden="true" />
+
+                AI SUMMARY
+
+              </div>
+
+
+              <h2 id="preview-card-heading" className="mt-5 text-3xl font-bold text-white">
+                {data.name}
+              </h2>
+
+
+              <p className="mt-2 text-gray-400">
+                {data.developer}
+              </p>
+
+            </div>
+
+
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-4">
+
+              <div className="rounded-2xl border border-gray-800 bg-black/50 p-5 text-center">
+
+                <p className="text-3xl font-bold text-blue-300" aria-label={`${data.rating} stars`}>
+                  {data.rating}
+                  <span aria-hidden="true">★</span>
+                </p>
+
+                <p className="mt-1 text-sm text-gray-400">
+                  Rating
+                </p>
+
+              </div>
+
+
+              <div className="rounded-2xl border border-gray-800 bg-black/50 p-5 text-center">
+
+                <p className="text-3xl font-bold text-blue-300">
+                  {data.confidence}%
+                </p>
+
+                <p className="mt-1 text-sm text-gray-400">
+                  Confidence
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          {/* AI Summary */}
+          <div className="rounded-2xl border border-gray-800 bg-black/40 p-6">
+
+            <h3 className="mb-3 font-semibold text-blue-300">
+              AI Summary
+            </h3>
+
+
+            <p className="text-gray-300 leading-7">
+              {data.summary}
+            </p>
+
+          </div>
+
+
+
+          {/* Pros and Cons */}
+          <div className="grid md:grid-cols-2 gap-8">
+
+
+            {/* Pros */}
+            <div>
+
+              <h3 className="mb-4 font-semibold text-blue-300">
+                Pros
+              </h3>
+
+
+              <ul className="space-y-3">
+
+                {data.pros.map((item)=>(
+                  <li
+                    key={item}
+                    className="flex items-center gap-3"
+                  >
+
+                    <div className="p-1 rounded-full bg-green-400/10">
+                      <Check
+                        size={16}
+                        className="text-green-400"
+                        aria-hidden="true"
+                      />
+                    </div>
+
+
+                    <span className="text-gray-300">
+                      {item}
+                    </span>
+
+                  </li>
+                ))}
+
+              </ul>
+
+            </div>
+
+
+
+            {/* Cons */}
+            <div>
+
+              <h3 className="mb-4 font-semibold text-blue-300">
+                Cons
+              </h3>
+
+
+              <ul className="space-y-3">
+
+                {data.cons.map((item)=>(
+                  <li
+                    key={item}
+                    className="flex items-center gap-3"
+                  >
+
+                    <div className="p-1 rounded-full bg-red-400/10">
+                      <X
+                        size={16}
+                        className="text-red-400"
+                        aria-hidden="true"
+                      />
+                    </div>
+
+
+                    <span className="text-gray-300">
+                      {item}
+                    </span>
+
+                  </li>
+                ))}
+
+              </ul>
+
+            </div>
+
+
+          </div>
+
+
+
+
+          {/* Sentiment */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+
+            <Card className="text-center bg-black/50 border border-gray-800 p-5">
+
+              <p className="text-3xl font-bold text-green-400">
+                {data.sentiment.positive}%
+              </p>
+
+              <p className="mt-2 text-sm text-gray-400">
+                Positive
+              </p>
+
+            </Card>
+
+
+
+            <Card className="text-center bg-black/50 border border-gray-800 p-5">
+
+              <p className="text-3xl font-bold text-blue-300">
+                {data.sentiment.neutral}%
+              </p>
+
+              <p className="mt-2 text-sm text-gray-400">
+                Neutral
+              </p>
+
+            </Card>
+
+
+
+            <Card className="text-center bg-black/50 border border-gray-800 p-5">
+
+              <p className="text-3xl font-bold text-red-400">
+                {data.sentiment.negative}%
+              </p>
+
+              <p className="mt-2 text-sm text-gray-400">
+                Negative
+              </p>
+
+            </Card>
+
+
+          </div>
+
+
         </div>
 
-        <Card className="p-8 bg-black/70 border border-gray-900 shadow-sm">
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div>
-                <div className="inline-flex items-center gap-3 rounded-full border border-gray-800 bg-black/80 px-3 py-2 text-xs uppercase tracking-[0.28em] text-blue-300">
-                  AI SUMMARY
-                </div>
-                <h2 className="mt-4 text-2xl font-bold text-blue-300">{previewData.name}</h2>
-                <p className="mt-2 text-sm text-blue-300">{previewData.developer}</p>
-              </div>
-              <div className="grid grid-cols-2 gap-4 text-right md:grid-cols-2">
-                <div className="rounded-3xl border border-gray-900 bg-black/80 p-4">
-                  <p className="text-3xl font-semibold text-blue-300">{previewData.rating}★</p>
-                  <p className="mt-1 text-sm text-blue-300">Rating</p>
-                </div>
-                <div className="rounded-3xl border border-gray-900 bg-black/80 p-4">
-                  <p className="text-3xl font-semibold text-blue-300">{previewData.confidence}%</p>
-                  <p className="mt-1 text-sm text-blue-300">Confidence</p>
-                </div>
-              </div>
-            </div>
+      </Card>
 
-            <div className="mt-8">
-              <h3 className="font-semibold mb-3 text-blue-300">AI Summary</h3>
-              <p className="text-black leading-7">{previewData.summary}</p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8 mt-10">
-              <div>
-                <h3 className="font-semibold text-blue-300 mb-4">Pros</h3>
-                <div className="space-y-3">
-                  {previewData.pros.map((item) => (
-                    <div key={item} className="flex items-center gap-3">
-                      <Check size={18} className="text-green-400" />
-                      <span className="text-black">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-blue-300 mb-4">Cons</h3>
-                <div className="space-y-3">
-                  {previewData.cons.map((item) => (
-                    <div key={item} className="flex items-center gap-3">
-                      <X size={18} className="text-red-400" />
-                      <span className="text-black">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 mt-10">
-              <Card className="text-center bg-black/80 border border-gray-900">
-                <p className="text-3xl font-bold text-blue-300">{previewData.sentiment.positive}%</p>
-                <p className="mt-1 text-sm text-blue-300">Positive</p>
-              </Card>
-              <Card className="text-center bg-black/80 border border-gray-900">
-                <p className="text-3xl font-bold text-blue-300">{previewData.sentiment.neutral}%</p>
-                <p className="mt-1 text-sm text-blue-300">Neutral</p>
-              </Card>
-              <Card className="text-center bg-black/80 border border-gray-900">
-                <p className="text-3xl font-bold text-blue-300">{previewData.sentiment.negative}%</p>
-                <p className="mt-1 text-sm text-blue-300">Negative</p>
-              </Card>
-            </div>
-          </div>
-        </Card>
-      </div>
     </motion.div>
   );
-}
+};

@@ -6,6 +6,7 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { PreviewCard } from './PreviewCard';
+import { previewData } from '../../data/preview';
 
 export const Hero = () => {
   const [url, setUrl] = useState("");
@@ -67,7 +68,7 @@ export const Hero = () => {
               in seconds.
             </h1>
 
-            <p className="mt-8 text-lg text-blue-300 max-w-2xl mx-auto leading-8">
+            <p className="mt-8 text-lg text-gray-400 max-w-2xl mx-auto leading-8">
               ReviewLens analyzes thousands of app reviews using AI and
               delivers concise summaries, pros, cons, sentiment analysis,
               and personalized recommendations.
@@ -140,7 +141,7 @@ export const Hero = () => {
             </div>
           </motion.div>
         </Container>
-        <PreviewCard />
+        <PreviewCard data={previewData} />
       </div>
     </section>
   );
