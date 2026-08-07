@@ -5,8 +5,8 @@ export function Container({ children, className = "" }) {
         max-w-7xl
         mx-auto
         px-6
-        sm:px-8
-        lg:px-12
+        md:px-8
+        lg:px-8
         ${className}
       `}
     >

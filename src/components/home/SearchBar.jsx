@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-
+import { Button } from "../ui/Button";
 
 export const SearchBar = () => {
 
@@ -30,29 +30,18 @@ export const SearchBar = () => {
         flex-1
         bg-transparent
         outline-none
-        text-white
+        text-gray-300
         placeholder:text-gray-500
+        focus:border-blue-300
+        focus:ring-1
         px-2
         "
       />
 
 
-      <button
-        className="
-        px-6
-        py-3
-        rounded-xl
-        bg-blue-300
-        text-black
-        font-semibold
-        hover:bg-blue-200
-        transition
-        "
-      >
+      <Button className="py-3 px-6">
         Analyze
-      </button>
-
-
+      </Button>
     </div>
 
   );

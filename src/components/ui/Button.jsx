@@ -17,16 +17,17 @@ export const Button = ({
       disabled={disabled}
       className={`
         bg-blue-300
-        text-black
+        text-gray-950
         font-semibold
-        rounded-full
+        rounded-xl
+        px-6
+        py-3
         transition
-        duration-300
+        duration-200
         focus:outline-none
         focus:ring-2
-        focus:ring-offset-2
-        focus:ring-gray-500
-        hover:enabled:bg-gray-200
+        focus:ring-blue-300/50
+        hover:enabled:bg-blue-400
         disabled:opacity-60
         disabled:cursor-not-allowed
         ${className}
