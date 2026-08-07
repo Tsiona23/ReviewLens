@@ -113,12 +113,12 @@ export const Navbar = () => {
               to="/"
               className="
               rounded-full
-              bg-blue-300
+              bg-white
               px-6
               py-3
               text-sm
               font-semibold
-              text-black
+              text-white
               hover:bg-blue-200
               transition
               "
