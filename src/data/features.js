@@ -1,29 +1,38 @@
-import { BarChart, BrainCircuit, ThumbsUp, Zap } from 'lucide-react';
-
 export const features = [
+
   {
-    id: 'sentiment-analysis',
-    icon: BarChart,
-    title: 'Sentiment Analysis',
+    id:1,
+    title:"AI Review Summary",
     description:
-      'Understand the overall emotional tone of reviews with a clear positive, neutral, and negative breakdown.',
+      "Automatically summarize thousands of reviews into simple insights.",
+    icon:"sparkles",
   },
+
+
   {
-    id: 'ai-summary',
-    icon: BrainCircuit,
-    title: 'AI-Powered Summary',
-    description: 'Get a concise, AI-generated summary of thousands of reviews, highlighting the most important points.',
+    id:2,
+    title:"Sentiment Analysis",
+    description:
+      "Discover how users feel through positive, neutral, and negative analysis.",
+    icon:"chart",
   },
+
+
   {
-    id: 'pros-cons',
-    icon: ThumbsUp,
-    title: 'Pros & Cons',
-    description: 'Quickly see the most frequently mentioned positive and negative aspects of the app.',
+    id:3,
+    title:"Pros & Cons",
+    description:
+      "Identify what users love and what problems they experience.",
+    icon:"reviews",
   },
+
+
   {
-    id: 'key-topics',
-    icon: Zap,
-    title: 'Key Topics',
-    description: 'Discover the key themes and topics that users are talking about in their reviews.',
+    id:4,
+    title:"User Insights",
+    description:
+      "Find common requests, complaints, and improvement opportunities.",
+    icon:"insights",
   },
+
 ];

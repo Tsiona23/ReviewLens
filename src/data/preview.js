@@ -3,26 +3,24 @@ export const previewData = {
   developer: "OpenAI",
   rating: 4.8,
   confidence: 96,
-  verdict: "Worth Downloading",
 
   summary:
-    "ChatGPT is praised for its powerful AI capabilities, clean interface, and usefulness for writing, coding, studying, and brainstorming. Most users report a smooth experience, while some mention subscription costs and occasional inaccurate responses.",
+    "ChatGPT is a powerful AI assistant praised for its accuracy, helpful responses, and wide range of features.",
 
   pros: [
-    "Easy to use",
-    "Fast responses",
-    "Excellent AI",
-    "Clean interface"
+    "Excellent AI responses",
+    "Easy to use interface",
+    "Helpful productivity features",
   ],
 
   cons: [
-    "Premium subscription",
-    "Occasional inaccuracies"
+    "Some features require payment",
+    "Occasional inaccurate answers",
   ],
 
   sentiment: {
-    positive: 81,
+    positive: 82,
     neutral: 12,
-    negative: 7
-  }
+    negative: 6,
+  },
 };

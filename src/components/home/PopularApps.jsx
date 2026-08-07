@@ -1,37 +1,59 @@
-import { Container } from '../ui/Container';
-import { AppCard } from './AppCard';
-import { popularApps } from '../../data/popularApps.js';
-import { motion } from 'framer-motion';
+import { Container } from "../ui/Container";
+import { AppCard } from "./AppCard";
+import { SectionHeader } from "./SectionHeader";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05,
-    },
-  },
-};
+import { popularApps } from "../../data/popularApps";
+
 
 export const PopularApps = () => {
+
   return (
-    <section aria-labelledby="popular-apps-heading" className="py-20 bg-black">
+
+    <section className="
+      py-28
+      border-t
+      border-gray-900
+    ">
+
+
       <Container>
-        <h2 id="popular-apps-heading" className="text-3xl font-bold text-center text-blue-300 mb-12">
-          Popular Apps
-        </h2>
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-6"
+
+
+        <SectionHeader
+          title="Popular Apps"
+          description="See how ReviewLens can analyze the apps millions of people use every day."
+        />
+
+
+
+        <div
+          className="
+          mt-16
+          grid
+          gap-6
+          sm:grid-cols-2
+          lg:grid-cols-4
+          "
         >
-          {popularApps.map((app) => (
-            <AppCard key={app.name} name={app.name} icon={app.icon} url={app.url} />
+
+          {popularApps.map((app)=>(
+
+            <AppCard
+              key={app.id}
+              app={app}
+            />
+
           ))}
-        </motion.div>
+
+
+        </div>
+
+
       </Container>
+
+
     </section>
+
   );
+
 };

@@ -1,0 +1,63 @@
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+body {
+
+  margin:0;
+
+  background:#050505;
+
+  color:white;
+
+  font-family:
+  Inter,
+  system-ui,
+  -apple-system,
+  sans-serif;
+
+}
+
+
+::selection {
+
+  background:#93c5fd;
+
+  color:black;
+
+}
+
+
+
+::-webkit-scrollbar {
+
+  width:8px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+  background:#050505;
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+  background:#1f2937;
+
+  border-radius:10px;
+
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+  background:#93c5fd;
+
+}

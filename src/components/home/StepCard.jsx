@@ -1,22 +1,80 @@
-import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
+import { ArrowRight } from "lucide-react";
 
-export const StepCard = ({ step, index }) => {
+
+export const StepCard = ({step,index}) => {
+
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 35 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{
-        delay: index * 0.15,
-        duration: 0.5,
-      }}
-      viewport={{ once: true }}
+
+    <div
+      className="
+      relative
+      rounded-2xl
+      border
+      border-gray-800
+      bg-gray-950/70
+      p-8
+      hover:border-blue-300/40
+      transition
+      "
     >
-      <Card className="h-full p-8 bg-transparent border-gray-800 text-blue-300">
-        <div className="text-5xl font-bold text-gray-700 mb-4">{step.stepNumber}</div>
-        <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-        <p className="text-blue-300leading-7">{step.description}</p>
-      </Card>
-    </motion.div>
+
+
+      <div
+        className="
+        text-5xl
+        font-bold
+        text-blue-300/20
+        "
+      >
+        0{index+1}
+      </div>
+
+
+
+      <h3 className="
+      mt-6
+      text-2xl
+      font-semibold
+      text-white
+      ">
+
+        {step.title}
+
+      </h3>
+
+
+
+      <p className="
+      mt-3
+      text-gray-400
+      leading-6
+      ">
+
+        {step.description}
+
+      </p>
+
+
+
+      {index !== 2 && (
+
+        <ArrowRight
+          className="
+          hidden
+          lg:block
+          absolute
+          -right-7
+          top-1/2
+          text-blue-300
+          "
+        />
+
+      )}
+
+
+    </div>
+
   );
+
 };

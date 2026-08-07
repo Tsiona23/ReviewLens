@@ -1,22 +1,120 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Star, ArrowUpRight } from "lucide-react";
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
 
-export const AppCard = ({ name, icon, url }) => {
+export const AppCard = ({app}) => {
+
+
   return (
-    <motion.div variants={itemVariants}>
-      <Link to={url} className="block h-full">
-        <div
-          className="flex flex-col items-center justify-center p-4 bg-gray-900 rounded-lg text-center h-full transition-colors hover:bg-gray-800"
-        >
-          <img src={icon} alt={`${name} logo`} className="w-16 h-16 mb-3 rounded-2xl shadow-lg" />
-          <span className="font-medium text-white text-sm">{name}</span>
+
+    <div
+      className="
+      group
+      rounded-2xl
+      border
+      border-gray-800
+      bg-gray-950/70
+      p-6
+      hover:border-blue-300/40
+      transition-all
+      duration-300
+      "
+    >
+
+
+      <div className="
+      flex
+      items-center
+      gap-4
+      ">
+
+
+        <img
+          src={app.image}
+          alt={app.name}
+          className="
+          w-14
+          h-14
+          rounded-xl
+          object-cover
+          "
+        />
+
+
+        <div>
+
+          <h3 className="
+          text-lg
+          font-semibold
+          text-white
+          ">
+
+            {app.name}
+
+          </h3>
+
+
+          <div className="
+          flex
+          items-center
+          gap-1
+          text-sm
+          text-yellow-400
+          ">
+
+            <Star size={15} fill="currentColor"/>
+
+            {app.rating}
+
+          </div>
+
+
         </div>
-      </Link>
-    </motion.div>
+
+
+      </div>
+
+
+
+      <p className="
+      mt-5
+      text-sm
+      text-gray-400
+      ">
+
+        {app.reviews} reviews analyzed
+
+      </p>
+
+
+
+      <button
+        className="
+        mt-6
+        w-full
+        flex
+        items-center
+        justify-center
+        gap-2
+        rounded-xl
+        bg-blue-300
+        py-3
+        text-sm
+        font-semibold
+        text-black
+        hover:bg-blue-200
+        transition
+        "
+      >
+
+        Analyze App
+
+        <ArrowUpRight size={16}/>
+
+      </button>
+
+
+    </div>
+
   );
+
 };

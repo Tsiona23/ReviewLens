@@ -2,28 +2,52 @@ import { Container } from "../ui/Container";
 import { FeatureCard } from "./FeatureCard";
 import { SectionHeader } from "./SectionHeader";
 
-import { features } from "../../data/features.js";
+import { features } from "../../data/features";
+
 
 export const Features = () => {
+
   return (
-    <section aria-labelledby="features-heading" className="py-28">
+
+    <section className="relative py-28 border-t border-gray-900 overflow-hidden">
+
+      {/* Glow */}
+      <div className="absolute right-0 top-20 w-100 h-62.5 bg-blue-300/5 blur-[120px] rounded-full" />
+
+
       <Container>
+
         <SectionHeader
-          id="features-heading"
-          title="Everything you need to decide faster"
-          description="ReviewLens transforms thousands of reviews into clear insights, helping you choose apps with confidence."
+          title="Powerful AI Review Insights"
+          description="Understand what users love, dislike, and expect from any application."
         />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
+
+        <div className="
+          mt-16
+          grid
+          gap-6
+          md:grid-cols-2
+          lg:grid-cols-4
+        ">
+
+          {features.map((feature)=>(
+
             <FeatureCard
               key={feature.id}
               feature={feature}
-              index={index}
             />
+
           ))}
+
         </div>
+
+
       </Container>
+
+
     </section>
+
   );
+
 };
