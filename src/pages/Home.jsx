@@ -15,8 +15,8 @@ export const Home = () => {
         <Container>
           <div className="rounded-4xl border border-gray-800 bg-white/5 p-10 text-center">
             <p className="text-sm uppercase tracking-[0.32em] text-blue-300">Ready to analyze your next app?</p>
-            <h2 className="mt-4 text-4xl font-bold text-white">Paste a URL and get instant insights.</h2>
-            <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
+            <h2 className="mt-4 text-4xl font-bold text-blue-300">Paste a URL and get instant insights.</h2>
+            <p className="mt-4 text-blue-300 max-w-2xl mx-auto">
               ReviewLens turns thousands of app reviews into clear pros, cons, sentiment, and recommendations.
             </p>
             <a
