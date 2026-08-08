@@ -35,14 +35,12 @@ export const Footer = () => {
               className="
               text-2xl
               font-bold
-              text-white
+              text-blue-300
               "
             >
 
-              Review
-              <span className="text-blue-300">
-                Lens
-              </span>
+               <span className="text-2xl text-blue-300">◐</span>
+            <span>ReviewLens</span>
 
 
             </h2>
