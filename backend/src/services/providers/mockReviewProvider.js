@@ -1,0 +1,86 @@
+const mockReviews = [
+  {
+    id: "review-1",
+    rating: 5,
+    title: "Amazing app",
+    body: "The app is very easy to use and the interface is beautiful.",
+    language: "en",
+    date: "2026-07-28",
+  },
+  {
+    id: "review-2",
+    rating: 5,
+    title: "Very useful",
+    body: "I use this app every day and it saves me a lot of time.",
+    language: "en",
+    date: "2026-07-25",
+  },
+  {
+    id: "review-3",
+    rating: 4,
+    title: "Works really well",
+    body: "The app works quickly and has many useful features.",
+    language: "en",
+    date: "2026-07-22",
+  },
+  {
+    id: "review-4",
+    rating: 4,
+    title: "Great interface",
+    body: "The interface is clean and easy to understand.",
+    language: "en",
+    date: "2026-07-20",
+  },
+  {
+    id: "review-5",
+    rating: 3,
+    title: "Good but expensive",
+    body: "The app is useful but the subscription is too expensive for me.",
+    language: "en",
+    date: "2026-07-18",
+  },
+  {
+    id: "review-6",
+    rating: 3,
+    title: "Needs improvement",
+    body: "The latest update made the app slower than before.",
+    language: "en",
+    date: "2026-07-15",
+  },
+  {
+    id: "review-7",
+    rating: 2,
+    title: "Too many ads",
+    body: "I wish there were fewer advertisements.",
+    language: "en",
+    date: "2026-07-12",
+  },
+  {
+    id: "review-8",
+    rating: 2,
+    title: "Crashes sometimes",
+    body: "Sometimes the application crashes after updates.",
+    language: "en",
+    date: "2026-07-10",
+  },
+  {
+    id: "review-9",
+    rating: 5,
+    title: "Helpful support",
+    body: "Customer support was helpful when I had a problem.",
+    language: "en",
+    date: "2026-07-08",
+  },
+  {
+    id: "review-10",
+    rating: 4,
+    title: "Reliable",
+    body: "The app is reliable and I rarely have problems using it.",
+    language: "en",
+    date: "2026-07-05",
+  },
+];
+
+export async function getMockReviews() {
+  return mockReviews;
+}
