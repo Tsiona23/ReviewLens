@@ -47,7 +47,7 @@ const itemVariants = {
 
 export const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-20 sm:py-32">
+    <section id="how-it-works" className="py-16 sm:py-20">
       <Container>
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">

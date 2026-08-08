@@ -10,7 +10,7 @@ export const PopularApps = () => {
   return (
 
     <section className="
-      py-28
+      py-16 sm:py-20
       border-t
       border-gray-900
     ">

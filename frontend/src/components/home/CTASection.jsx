@@ -9,7 +9,7 @@ export const CTASection = () => {
 
     <section className="
     relative
-    py-28
+    py-16 sm:py-20
     border-t
     border-gray-900
     overflow-hidden

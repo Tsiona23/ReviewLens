@@ -7,7 +7,7 @@ import { CTASection } from "../components/home/CTASection";
 
 export const Home = () => {
   return (
-    <main className="bg-black text-white overflow-hidden">
+    <main className="bg-black text-white">
 
       <Hero />
 

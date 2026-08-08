@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export const Hero = () => {
   return (
-    <section className="relative pt-16 md:pt-20 pb-20 overflow-hidden">
+    <section className="relative pt-12 md:pt-16 pb-16 overflow-hidden">
 
       {/* Glow */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-150 h-75 bg-blue-300/10 blur-[120px] rounded-full" />
@@ -14,7 +14,7 @@ export const Hero = () => {
 
       <Container>
 
-        <div className="relative grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
 
           {/* Left */}
