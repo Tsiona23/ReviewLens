@@ -44,7 +44,7 @@ export const PreviewCard = ({ data }) => {
         className="relative overflow-hidden border border-gray-800 bg-gray-950/80 p-3 shadow-xl"
       >
         {/* Glow */}
-        <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-blue-300/10 blur-[100px]" />
+        <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-blue-300/10 blur-[100px]" aria-hidden="true" />
 
         <div className="relative flex flex-col gap-4">
 
@@ -125,7 +125,7 @@ export const PreviewCard = ({ data }) => {
 
             {/* Pros */}
             <div>
-              <h3 className="mb-4 font-semibold text-blue-300">
+              <h3 className="mb-4 font-semibold text-green-400">
                 Pros
               </h3>
 
@@ -153,7 +153,7 @@ export const PreviewCard = ({ data }) => {
 
             {/* Cons */}
             <div>
-              <h3 className="mb-4 font-semibold text-blue-300">
+              <h3 className="mb-4 font-semibold text-red-400">
                 Cons
               </h3>
 

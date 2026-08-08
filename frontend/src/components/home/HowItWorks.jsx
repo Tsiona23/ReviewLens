@@ -75,7 +75,7 @@ export const HowItWorks = () => {
             {steps.map((step) => (
               <motion.div key={step.title} variants={itemVariants} className="flex flex-col items-center text-center">
                 <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-blue-300 bg-black">
-                  <step.icon className="h-6 w-6 text-blue-300" />
+                  <step.icon className="h-6 w-6 text-blue-300" aria-hidden="true" />
                 </div>
                 <h3 className="mt-6 text-xl font-semibold text-white">{step.title}</h3>
                 <p className="mt-2 text-base text-gray-400">{step.description}</p>

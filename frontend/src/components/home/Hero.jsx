@@ -9,7 +9,7 @@ export const Hero = () => {
     <section className="relative pt-12 md:pt-16 pb-16 overflow-hidden">
 
       {/* Glow */}
-      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-150 h-75 bg-blue-300/10 blur-[120px] rounded-full" />
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-150 h-75 bg-blue-300/10 blur-[120px] rounded-full" aria-hidden="true" />
 
 
       <Container>

@@ -27,7 +27,7 @@ export const CTASection = () => {
         bg-blue-300/10
         blur-[120px]
         rounded-full
-        "
+        " aria-hidden="true"
       />
 
 
@@ -104,7 +104,7 @@ export const CTASection = () => {
           >
             Analyze Now
 
-            <ArrowRight size={18}/>
+            <ArrowRight size={18} aria-hidden="true" />
 
           </a>
 

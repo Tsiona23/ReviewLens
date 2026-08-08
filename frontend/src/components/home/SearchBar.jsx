@@ -32,10 +32,12 @@ export const SearchBar = () => {
       "
     >
 
+      <label htmlFor="app-url" className="sr-only">Paste app store URL</label>
       <Search className="ml-3 text-blue-300"/>
 
 
       <input
+        id="app-url"
         value={appUrl}
         onChange={(event) => setAppUrl(event.target.value)}
         type="text"
