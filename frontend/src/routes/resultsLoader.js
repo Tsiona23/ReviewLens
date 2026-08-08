@@ -1,33 +1,34 @@
-import { mockResult } from "../data/mockResult";
-
-// A small utility to simulate network delay
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-/**
- * This function simulates fetching the analysis from a backend API.
- * In a real application, this would make a network request.
- * @param {string} appUrl - The URL of the app to analyze.
- * @returns {Promise<object>} - A promise that resolves to the analysis object.
- */
 async function fetchAnalysisFromAPI(appUrl) {
-  // In a real application, you would do something like this:
-  // const response = await fetch(`https://your-api.com/analyze?url=${encodeURIComponent(appUrl)}`);
-  // if (!response.ok) {
-  //   const errorData = await response.json();
-  //   throw new Error(errorData.message || "Failed to fetch analysis from the server.");
-  // }
-  // return response.json();
+  const response = await fetch("/api/analyze", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ url: appUrl }),
+  });
 
-  console.log(`Simulating API call for: ${appUrl}`);
-  await sleep(1500); // Simulate a 1.5 second network delay
+  const data = await response.json();
 
-  // You can test the error handling by passing a URL containing "fail"
-  if (appUrl.includes("fail")) {
-    throw new Error("Simulated API failure: The server could not process the request.");
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch analysis from the server.");
   }
 
-  // On success, return the mock data
-  return mockResult;
+  if (!data.success) {
+    throw new Error(data.message || "Failed to analyze the app reviews.");
+  }
+
+  const analysis = data.analysis || {};
+  const recommendation = analysis.recommendation;
+
+  return {
+    ...analysis,
+    appName: analysis.appName || data.app?.appId || data.app?.store || "App",
+    publisher: analysis.publisher || data.app?.store || "",
+    verdict: analysis.verdict || (typeof recommendation === "object" ? recommendation.verdict : recommendation) || "",
+    confidence: analysis.confidence ?? (typeof recommendation === "object" ? recommendation.confidence : undefined),
+    recommendation:
+      typeof recommendation === "object" ? recommendation.verdict : recommendation,
+  };
 }
 
 export async function resultsLoader({ request }) {

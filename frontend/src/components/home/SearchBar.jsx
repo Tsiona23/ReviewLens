@@ -1,11 +1,23 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Button } from "../ui/Button";
 
 export const SearchBar = () => {
+  const [appUrl, setAppUrl] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const trimmedUrl = appUrl.trim();
+    if (!trimmedUrl) return;
+    navigate(`/results?url=${encodeURIComponent(trimmedUrl)}`);
+  };
 
   return (
 
-    <div
+    <form
+      onSubmit={handleSubmit}
       id="app-url-input"
       className="
       flex
@@ -24,6 +36,8 @@ export const SearchBar = () => {
 
 
       <input
+        value={appUrl}
+        onChange={(event) => setAppUrl(event.target.value)}
         type="text"
         placeholder="Paste app store URL..."
         className="
@@ -39,10 +53,10 @@ export const SearchBar = () => {
       />
 
 
-      <Button className="py-3 px-6">
+      <Button type="submit" className="py-3 px-6">
         Analyze
       </Button>
-    </div>
+    </form>
 
   );
 };

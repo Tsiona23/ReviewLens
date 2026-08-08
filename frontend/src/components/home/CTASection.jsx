@@ -84,7 +84,8 @@ export const CTASection = () => {
 
 
 
-          <button
+          <a
+            href="#app-url-input"
             className="
             mt-8
             inline-flex
@@ -101,12 +102,11 @@ export const CTASection = () => {
             transition
             "
           >
-
             Analyze Now
 
             <ArrowRight size={18}/>
 
-          </button>
+          </a>
 
 
         </div>

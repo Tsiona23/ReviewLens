@@ -12,7 +12,7 @@ app.use(
 
 app.use(express.json());
 
-app.use("/api/analyze", analyzeRoutes);
+app.use("/api", analyzeRoutes);
 
 app.get("/", (req, res) => {
   res.json({
