@@ -1,6 +1,7 @@
 import { validateAppUrl } from "../utils/validateAppUrl.js";
 import { parseGooglePlayUrl } from "../utils/parseGooglePlayUrl.js";
 import { parseAppStoreUrl } from "../utils/parseAppStoreUrl.js";
+import { getGooglePlayReviews } from "./providers/googlePlayProvider.js";
 import { getMockReviews } from "./providers/index.js";
 
 export async function getReviewsFromUrl(url) {
@@ -12,6 +13,10 @@ export async function getReviewsFromUrl(url) {
     );
   }
 
+  // =========================
+  // GOOGLE PLAY
+  // =========================
+
   if (validation.store === "google-play") {
     const app = parseGooglePlayUrl(url);
 
@@ -19,7 +24,8 @@ export async function getReviewsFromUrl(url) {
       throw new Error("Could not identify the Google Play app.");
     }
 
-    const reviews = await getMockReviews();
+    // Get REAL Google Play reviews
+    const reviews = await getGooglePlayReviews(app.appId);
 
     return {
       store: "google-play",
@@ -28,12 +34,20 @@ export async function getReviewsFromUrl(url) {
     };
   }
 
+  // =========================
+  // APP STORE
+  // =========================
+
   if (validation.store === "app-store") {
     const app = parseAppStoreUrl(url);
 
     if (!app) {
       throw new Error("Could not identify the App Store app.");
     }
+
+    // Temporary: App Store still uses mock reviews.
+    // We will replace this with a real App Store
+    // review provider in the next stage.
 
     const reviews = await getMockReviews();
 

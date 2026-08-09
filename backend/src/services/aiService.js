@@ -6,8 +6,8 @@ const ai = new GoogleGenAI({
 });
 
 export async function analyzeReviews(reviews) {
-  if (!env.geminiApiKey) {
-    throw new Error("GEMINI_API_KEY is missing.");
+  if (!Array.isArray(reviews) || reviews.length === 0) {
+    throw new Error("No reviews available for analysis.");
   }
 
   const reviewText = reviews
@@ -15,69 +15,95 @@ export async function analyzeReviews(reviews) {
       return `
 Review ${index + 1}
 Rating: ${review.rating}/5
-Title: ${review.title}
+Title: ${review.title || "No title"}
 Review: ${review.body}
 `;
     })
     .join("\n");
 
   const prompt = `
-You are ReviewLens, an expert app review analysis system.
+You are ReviewLens, an AI system that analyzes real app reviews.
 
-Analyze the following app reviews.
+Analyze the following user reviews and return ONLY valid JSON.
 
-Return ONLY valid JSON.
+REVIEWS:
+${reviewText}
 
-Use exactly this structure:
+Return exactly this structure:
 
 {
-  "summary": "string",
-  "pros": ["string"],
-  "cons": ["string"],
+  "summary": "A concise summary of what users generally think about the app.",
+  "pros": [
+    "Main positive point",
+    "Main positive point",
+    "Main positive point"
+  ],
+  "cons": [
+    "Main negative point",
+    "Main negative point",
+    "Main negative point"
+  ],
   "sentiment": {
     "positive": 0,
     "neutral": 0,
     "negative": 0
   },
-  "topics": ["string"],
+  "topics": [
+    "Topic",
+    "Topic",
+    "Topic",
+    "Topic"
+  ],
   "recommendation": {
-    "verdict": "string",
-    "bestFor": ["string"],
-    "avoidIf": ["string"],
+    "verdict": "Worth Downloading",
+    "bestFor": [
+      "Type of user who would enjoy this app"
+    ],
+    "avoidIf": [
+      "Type of user who may dislike this app"
+    ],
     "confidence": 0
   }
 }
 
 Rules:
-- Sentiment percentages must add up to 100.
-- Confidence must be between 0 and 100.
-- Base everything only on the provided reviews.
-- Do not invent facts.
-- Keep the summary concise.
-- Return JSON only.
-- Do not use Markdown.
 
-Reviews:
-
-${reviewText}
+1. Base everything ONLY on the provided reviews.
+2. Do not invent complaints or positive points.
+3. sentiment values must be percentages.
+4. positive + neutral + negative must equal 100.
+5. confidence must be between 0 and 100.
+6. Keep pros and cons concise.
+7. topics should represent recurring themes.
+8. verdict must be one of:
+   "Worth Downloading"
+   "Maybe"
+   "Not Recommended"
+9. Return JSON only.
 `;
 
   try {
     const response = await ai.models.generateContent({
       model: env.geminiModel,
       contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-      },
     });
 
-    if (!response.text) {
+    const text = response.text?.trim();
+
+    if (!text) {
       throw new Error("Gemini returned an empty response.");
     }
 
-    return JSON.parse(response.text);
+    const cleaned = text
+      .replace(/^```json\s*/i, "")
+      .replace(/^```\s*/i, "")
+      .replace(/\s*```$/i, "")
+      .trim();
+
+    return JSON.parse(cleaned);
   } catch (error) {
-    console.error("Gemini error:", error.message);
-    throw new Error(`AI analysis failed: ${error.message}`);
+    console.error("AI analysis error:", error);
+
+    throw new Error("Failed to analyze reviews with AI.");
   }
 }
