@@ -1,4 +1,3 @@
-javascript
 import { getGooglePlayApp } from "../services/providers/googlePlayProvider.js";
 
 const appId = "com.spotify.music";
@@ -14,4 +13,3 @@ try {
   console.error("\nTest failed:");
   console.error(error.message);
 }
-

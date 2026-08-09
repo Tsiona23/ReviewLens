@@ -1,7 +1,13 @@
+
 import { validateAppUrl } from "../utils/validateAppUrl.js";
 import { parseGooglePlayUrl } from "../utils/parseGooglePlayUrl.js";
 import { parseAppStoreUrl } from "../utils/parseAppStoreUrl.js";
-import { getGooglePlayReviews } from "./providers/googlePlayProvider.js";
+
+import {
+  getGooglePlayApp,
+  getGooglePlayReviews,
+} from "./providers/googlePlayProvider.js";
+
 import { getMockReviews } from "./providers/index.js";
 
 export async function getReviewsFromUrl(url) {
@@ -18,18 +24,39 @@ export async function getReviewsFromUrl(url) {
   // =========================
 
   if (validation.store === "google-play") {
-    const app = parseGooglePlayUrl(url);
+    const parsedApp = parseGooglePlayUrl(url);
 
-    if (!app) {
-      throw new Error("Could not identify the Google Play app.");
+    if (!parsedApp) {
+      throw new Error(
+        "Could not identify the Google Play app."
+      );
     }
 
-    // Get REAL Google Play reviews
-    const reviews = await getGooglePlayReviews(app.appId);
+    console.log(
+      `Analyzing Google Play app: ${parsedApp.appId}`
+    );
+
+    // Fetch REAL app information
+    const appInfo = await getGooglePlayApp(
+      parsedApp.appId
+    );
+
+    // Fetch REAL reviews
+    const reviews = await getGooglePlayReviews(
+      parsedApp.appId
+    );
+
+    console.log(
+      `App: ${appInfo.title} | Reviews: ${reviews.length}`
+    );
 
     return {
       store: "google-play",
-      appId: app.appId,
+
+      appId: parsedApp.appId,
+
+      app: appInfo,
+
       reviews,
     };
   }
@@ -39,24 +66,37 @@ export async function getReviewsFromUrl(url) {
   // =========================
 
   if (validation.store === "app-store") {
-    const app = parseAppStoreUrl(url);
+    const parsedApp = parseAppStoreUrl(url);
 
-    if (!app) {
-      throw new Error("Could not identify the App Store app.");
+    if (!parsedApp) {
+      throw new Error(
+        "Could not identify the App Store app."
+      );
     }
 
-    // Temporary: App Store still uses mock reviews.
-    // We will replace this with a real App Store
-    // review provider in the next stage.
-
+    // Temporary:
+    // App Store still uses mock reviews.
     const reviews = await getMockReviews();
 
     return {
       store: "app-store",
-      appId: app.appId,
+
+      appId: parsedApp.appId,
+
+      app: {
+        appId: parsedApp.appId,
+        title: "App Store App",
+        developer: "Unknown Developer",
+        category: "Unknown Category",
+        rating: 0,
+        icon: null,
+        url,
+      },
+
       reviews,
     };
   }
 
   throw new Error("Unsupported app store.");
 }
+

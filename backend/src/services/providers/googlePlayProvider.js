@@ -1,4 +1,57 @@
-import { reviews, sort } from "@mradex77/google-play-scraper";
+
+import {
+  app,
+  reviews,
+  sort,
+} from "@mradex77/google-play-scraper";
+
+export async function getGooglePlayApp(appId) {
+  if (!appId) {
+    throw new Error("Google Play app ID is required.");
+  }
+
+  try {
+    console.log(`Fetching app information for: ${appId}`);
+
+    const appData = await app({
+      appId,
+      lang: "en",
+      country: "us",
+    });
+
+    return {
+      appId,
+      title: appData.title || "Unknown App",
+      developer: appData.developer || "Unknown Developer",
+      category:
+        appData.genre ||
+        appData.category ||
+        "Unknown Category",
+      rating: Number(
+        appData.score ||
+        appData.rating ||
+        0
+      ),
+      icon:
+        appData.icon ||
+        appData.iconUrl ||
+        appData.thumbnail ||
+        null,
+      url:
+        appData.url ||
+        `https://play.google.com/store/apps/details?id=${appId}`,
+    };
+  } catch (error) {
+    console.error(
+      "Google Play app information error:",
+      error.message
+    );
+
+    throw new Error(
+      "Unable to retrieve Google Play app information."
+    );
+  }
+}
 
 export async function getGooglePlayReviews(appId) {
   if (!appId) {
@@ -24,11 +77,22 @@ export async function getGooglePlayReviews(appId) {
 
     return reviewList.map((review, index) => ({
       id: review.id || `google-${index}`,
-      rating: Number(review.score || review.rating || 0),
+      rating: Number(
+        review.score ||
+        review.rating ||
+        0
+      ),
       title: review.title || "",
-      body: review.text || review.content || "",
-      language: review.lang || "en",
-      date: review.date || null,
+      body:
+        review.text ||
+        review.content ||
+        "",
+      language:
+        review.lang ||
+        "en",
+      date:
+        review.date ||
+        null,
       source: "google-play",
     }));
   } catch (error) {
@@ -42,3 +106,4 @@ export async function getGooglePlayReviews(appId) {
     );
   }
 }
+
