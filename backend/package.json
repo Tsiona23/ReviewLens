@@ -9,6 +9,7 @@
   "dependencies": {
     "@google/genai": "^2.16.0",
     "@mradex77/google-play-scraper": "^1.1.0",
+    "app-store-scraper": "^0.18.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
