@@ -3,12 +3,13 @@ import { validateAppUrl } from "../utils/validateAppUrl.js";
 import { parseGooglePlayUrl } from "../utils/parseGooglePlayUrl.js";
 import { parseAppStoreUrl } from "../utils/parseAppStoreUrl.js";
 
+
 import {
   getGooglePlayApp,
   getGooglePlayReviews,
 } from "./providers/googlePlayProvider.js";
+import { getAppStoreApp } from "./providers/appStoreAppProvider.js";
 
-import { getMockReviews } from "./providers/index.js";
 
 export async function getReviewsFromUrl(url) {
   const validation = validateAppUrl(url);
@@ -65,38 +66,27 @@ export async function getReviewsFromUrl(url) {
   // APP STORE
   // =========================
 
-  if (validation.store === "app-store") {
-    const parsedApp = parseAppStoreUrl(url);
+if (validation.store === "app-store") {
+  const parsedApp = parseAppStoreUrl(url);
 
-    if (!parsedApp) {
-      throw new Error(
-        "Could not identify the App Store app."
-      );
-    }
-
-    // Temporary:
-    // App Store still uses mock reviews.
-    const reviews = await getMockReviews();
-
-    return {
-      store: "app-store",
-
-      appId: parsedApp.appId,
-
-      app: {
-        appId: parsedApp.appId,
-        title: "App Store App",
-        developer: "Unknown Developer",
-        category: "Unknown Category",
-        rating: 0,
-        icon: null,
-        url,
-      },
-
-      reviews,
-    };
+  if (!parsedApp) {
+    throw new Error(
+      "Could not identify the App Store app."
+    );
   }
 
+  console.log(
+    `Analyzing App Store app: ${parsedApp.appId}`
+  );
+
+  const appInfo = await getAppStoreApp(
+    parsedApp.appId
+  );
+
+  throw new Error(
+    `App Store review analysis is currently unavailable for "${appInfo.title}". Google Play analysis is currently supported.`
+  );
+}
   throw new Error("Unsupported app store.");
 }
 
