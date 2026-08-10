@@ -15,8 +15,12 @@ export const SearchBar = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Prevent submitting while an analysis is already running
+    if (loading) return;
+
     const trimmedUrl = appUrl.trim();
 
+    // Basic empty-input validation
     if (!trimmedUrl) {
       setError("Please enter an app URL.");
       return;
@@ -26,12 +30,21 @@ export const SearchBar = () => {
       setLoading(true);
       setError("");
 
-      // Send the URL to our backend
+      console.log("Starting ReviewLens analysis...");
+
+      // Send the URL to the backend
       const result = await analyzeApp(trimmedUrl);
 
       console.log("REAL REVIEWLENS ANALYSIS:", result);
 
-      // Navigate to results page and pass the real result
+      // Make sure the backend actually returned a successful result
+      if (!result || result.success === false) {
+        throw new Error(
+          result?.message || "The analysis could not be completed."
+        );
+      }
+
+      // Send the real analysis result to the Results page
       navigate("/results", {
         state: {
           result,
@@ -41,7 +54,8 @@ export const SearchBar = () => {
       console.error("Analysis failed:", error);
 
       setError(
-        error.message || "Something went wrong while analyzing the app."
+        error?.message ||
+          "Something went wrong while analyzing the app. Please try again."
       );
     } finally {
       setLoading(false);
@@ -49,7 +63,7 @@ export const SearchBar = () => {
   };
 
   return (
-    <div className="max-w-xl">
+    <div className="w-full">
       <form
         onSubmit={handleSubmit}
         id="app-url-input"
@@ -62,9 +76,9 @@ export const SearchBar = () => {
           border
           border-gray-800
           bg-gray-950
-          transition-all
-          duration-300
-          focus-within:border-blue-300/50
+          max-w-xl
+          transition
+          focus-within:border-blue-300/40
           focus-within:ring-1
           focus-within:ring-blue-300/20
         "
@@ -76,6 +90,7 @@ export const SearchBar = () => {
         <Search
           size={20}
           className="ml-3 shrink-0 text-blue-300"
+          aria-hidden="true"
         />
 
         <input
@@ -83,11 +98,18 @@ export const SearchBar = () => {
           value={appUrl}
           onChange={(event) => {
             setAppUrl(event.target.value);
-            if (error) setError("");
+
+            // Remove the error once the user starts correcting the input
+            if (error) {
+              setError("");
+            }
           }}
-          type="text"
+          type="url"
+          inputMode="url"
           placeholder="Paste app store URL..."
           disabled={loading}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? "app-url-error" : undefined}
           className="
             flex-1
             min-w-0
@@ -110,8 +132,18 @@ export const SearchBar = () => {
       </form>
 
       {error && (
-        <p className="mt-3 px-2 text-sm text-red-400">
+        <p
+          id="app-url-error"
+          role="alert"
+          className="mt-3 px-2 text-sm text-red-400"
+        >
           {error}
+        </p>
+      )}
+
+      {loading && (
+        <p className="mt-3 px-2 text-sm text-gray-500">
+          Fetching real reviews and generating your AI analysis...
         </p>
       )}
     </div>
