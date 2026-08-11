@@ -1,27 +1,34 @@
+
 const API_URL = "http://localhost:5000/api";
 
 export async function analyzeApp(url) {
-  if (!url || !url.trim()) {
-    throw new Error("Please enter an app URL.");
-  }
-
   const response = await fetch(`${API_URL}/analyze`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      url: url.trim(),
+      url,
     }),
   });
 
-  const data = await response.json();
+  let data;
 
-  if (!response.ok || !data.success) {
+  try {
+    data = await response.json();
+  } catch {
     throw new Error(
-      data.message || "Failed to analyze the app."
+      "The server returned an invalid response."
+    );
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      data?.message ||
+        "Failed to analyze the app."
     );
   }
 
   return data;
 }
+
