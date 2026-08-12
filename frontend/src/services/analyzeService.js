@@ -1,8 +1,8 @@
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function analyzeApp(url) {
-  const response = await fetch(`${API_URL}/analyze`, {
+  const response = await fetch(`${API_URL}/api/analyze`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -17,18 +17,14 @@ export async function analyzeApp(url) {
   try {
     data = await response.json();
   } catch {
-    throw new Error(
-      "The server returned an invalid response."
-    );
+    throw new Error("The server returned an invalid response.");
   }
 
   if (!response.ok) {
     throw new Error(
-      data?.message ||
-        "Failed to analyze the app."
+      data?.message || "Failed to analyze the app."
     );
   }
 
   return data;
 }
-
