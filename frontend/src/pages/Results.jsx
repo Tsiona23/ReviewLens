@@ -1,4 +1,3 @@
-
 import { useLocation, Link } from "react-router-dom";
 import { Container } from "../components/ui/Container";
 import { motion } from "framer-motion";
@@ -10,6 +9,10 @@ import {
   Star,
   ShieldCheck,
 } from "lucide-react";
+
+/* ============================================================
+   SENTIMENT BAR
+============================================================ */
 
 const SentimentBar = ({ label, value, colorClass }) => {
   return (
@@ -34,13 +37,76 @@ const SentimentBar = ({ label, value, colorClass }) => {
   );
 };
 
+/* ============================================================
+   RATING DISTRIBUTION
+============================================================ */
+
+const RatingDistribution = ({ distribution }) => {
+  const ratings = [5, 4, 3, 2, 1];
+
+  const total = ratings.reduce(
+    (sum, rating) => sum + Number(distribution?.[rating] || 0),
+    0
+  );
+
+  return (
+    <div className="space-y-4">
+      {ratings.map((rating) => {
+        const count = Number(distribution?.[rating] || 0);
+
+        const percentage = total
+          ? Math.round((count / total) * 100)
+          : 0;
+
+        return (
+          <div key={rating} className="space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-gray-300">
+                  {rating} star{rating !== 1 ? "s" : ""}
+                </span>
+
+                <Star
+                  size={14}
+                  className="text-blue-300"
+                  fill="currentColor"
+                />
+              </div>
+
+              <span className="text-gray-400">
+                {count} ({percentage}%)
+              </span>
+            </div>
+
+            <div className="h-2 overflow-hidden rounded-full bg-gray-800">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${percentage}%` }}
+                transition={{ duration: 0.8 }}
+                className="h-full rounded-full bg-blue-300"
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/* ============================================================
+   RESULTS PAGE
+============================================================ */
+
 export const Results = () => {
   const location = useLocation();
 
   // Real analysis returned from backend
   const result = location.state?.result;
 
-  // If user opens /results directly
+  /* ============================================================
+     NO RESULT
+  ============================================================ */
+
   if (!result) {
     return (
       <main className="min-h-screen bg-black text-white py-24">
@@ -80,7 +146,20 @@ export const Results = () => {
     );
   }
 
+  /* ============================================================
+     DATA
+  ============================================================ */
+
   const { app, analysis, reviewStats } = result;
+
+  const sentiment = analysis?.sentiment || {};
+
+  const ratingDistribution =
+    reviewStats?.ratingDistribution || {};
+
+  /* ============================================================
+     ANIMATION VARIANTS
+  ============================================================ */
 
   const containerVariants = {
     hidden: {
@@ -110,7 +189,9 @@ export const Results = () => {
     },
   };
 
-  const sentiment = analysis?.sentiment || {};
+  /* ============================================================
+     PAGE
+  ============================================================ */
 
   return (
     <main className="min-h-screen bg-black text-white py-12">
@@ -120,9 +201,9 @@ export const Results = () => {
           animate="visible"
           variants={containerVariants}
         >
-          {/* ========================= */}
-          {/* BACK LINK */}
-          {/* ========================= */}
+          {/* ==================================================
+              BACK LINK
+          ================================================== */}
 
           <motion.div
             variants={itemVariants}
@@ -145,9 +226,9 @@ export const Results = () => {
             </Link>
           </motion.div>
 
-          {/* ========================= */}
-          {/* APP HEADER */}
-          {/* ========================= */}
+          {/* ==================================================
+              APP HEADER
+          ================================================== */}
 
           <motion.div
             variants={itemVariants}
@@ -165,7 +246,7 @@ export const Results = () => {
               bg-gray-950
             "
           >
-            {/* App Icon */}
+            {/* APP ICON */}
 
             {app?.icon && (
               <img
@@ -182,7 +263,7 @@ export const Results = () => {
               />
             )}
 
-            {/* App Information */}
+            {/* APP INFORMATION */}
 
             <div className="text-center sm:text-left flex-1">
               <div
@@ -240,9 +321,7 @@ export const Results = () => {
                 "
               >
                 {app?.category && (
-                  <span>
-                    {app.category}
-                  </span>
+                  <span>{app.category}</span>
                 )}
 
                 {app?.rating !== undefined && (
@@ -259,16 +338,16 @@ export const Results = () => {
 
                 {reviewStats && (
                   <span>
-                    {reviewStats.analyzed} reviews analyzed
+                    {reviewStats.analyzed || 0} reviews analyzed
                   </span>
                 )}
               </div>
             </div>
           </motion.div>
 
-          {/* ========================= */}
-          {/* MAIN GRID */}
-          {/* ========================= */}
+          {/* ==================================================
+              MAIN GRID
+          ================================================== */}
 
           <div
             className="
@@ -278,15 +357,15 @@ export const Results = () => {
               gap-8
             "
           >
-            {/* ========================= */}
-            {/* LEFT COLUMN */}
-            {/* ========================= */}
+            {/* =================================================
+                LEFT COLUMN
+            ================================================= */}
 
             <div className="lg:col-span-2 space-y-8">
 
-              {/* ========================= */}
-              {/* AI SUMMARY */}
-              {/* ========================= */}
+              {/* =================================================
+                  AI SUMMARY
+              ================================================= */}
 
               <motion.div
                 variants={itemVariants}
@@ -320,9 +399,9 @@ export const Results = () => {
                 </p>
               </motion.div>
 
-              {/* ========================= */}
-              {/* PROS & CONS */}
-              {/* ========================= */}
+              {/* =================================================
+                  PROS & CONS
+              ================================================= */}
 
               <motion.div
                 variants={itemVariants}
@@ -424,9 +503,9 @@ export const Results = () => {
                 </div>
               </motion.div>
 
-              {/* ========================= */}
-              {/* RECOMMENDATION */}
-              {/* ========================= */}
+              {/* =================================================
+                  RECOMMENDATION
+              ================================================= */}
 
               {analysis?.recommendation && (
                 <motion.div
@@ -458,7 +537,7 @@ export const Results = () => {
                     </div>
                   </div>
 
-                  {/* Best For */}
+                  {/* BEST FOR */}
 
                   {analysis.recommendation.bestFor?.length > 0 && (
                     <div className="mb-6">
@@ -481,7 +560,7 @@ export const Results = () => {
                     </div>
                   )}
 
-                  {/* Avoid If */}
+                  {/* AVOID IF */}
 
                   {analysis.recommendation.avoidIf?.length > 0 && (
                     <div className="mb-6">
@@ -504,7 +583,7 @@ export const Results = () => {
                     </div>
                   )}
 
-                  {/* Confidence */}
+                  {/* CONFIDENCE */}
 
                   {analysis.recommendation.confidence !==
                     undefined && (
@@ -524,15 +603,15 @@ export const Results = () => {
               )}
             </div>
 
-            {/* ========================= */}
-            {/* RIGHT COLUMN */}
-            {/* ========================= */}
+            {/* =================================================
+                RIGHT COLUMN
+            ================================================= */}
 
             <div className="space-y-8">
 
-              {/* ========================= */}
-              {/* SENTIMENT */}
-              {/* ========================= */}
+              {/* =================================================
+                  SENTIMENT
+              ================================================= */}
 
               <motion.div
                 variants={itemVariants}
@@ -569,9 +648,32 @@ export const Results = () => {
                 </div>
               </motion.div>
 
-              {/* ========================= */}
-              {/* TOPICS */}
-              {/* ========================= */}
+              {/* =================================================
+                  RATING DISTRIBUTION
+              ================================================= */}
+
+              <motion.div
+                variants={itemVariants}
+                className="
+                  p-6
+                  border
+                  border-gray-800
+                  rounded-2xl
+                  bg-gray-950
+                "
+              >
+                <h2 className="text-2xl font-bold text-white mb-6">
+                  Rating Distribution
+                </h2>
+
+                <RatingDistribution
+                  distribution={ratingDistribution}
+                />
+              </motion.div>
+
+              {/* =================================================
+                  TOPICS
+              ================================================= */}
 
               <motion.div
                 variants={itemVariants}
@@ -614,9 +716,9 @@ export const Results = () => {
                 </div>
               </motion.div>
 
-              {/* ========================= */}
-              {/* REVIEW STATS */}
-              {/* ========================= */}
+              {/* =================================================
+                  REVIEW STATS
+              ================================================= */}
 
               <motion.div
                 variants={itemVariants}
@@ -652,26 +754,43 @@ export const Results = () => {
                       {reviewStats?.analyzed || 0}
                     </span>
                   </div>
+
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">
+                      5-star reviews
+                    </span>
+
+                    <span className="font-semibold text-white">
+                      {ratingDistribution?.[5] || 0}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">
+                      1-star reviews
+                    </span>
+
+                    <span className="font-semibold text-white">
+                      {ratingDistribution?.[1] || 0}
+                    </span>
+                  </div>
                 </div>
               </motion.div>
             </div>
           </div>
 
-          {/* ========================= */}
-          {/* FOOTER NOTE */}
-          {/* ========================= */}
+          {/* ==================================================
+              FOOTER NOTE
+          ================================================== */}
 
           <motion.div
             variants={itemVariants}
             className="mt-10 text-center text-sm text-gray-600"
           >
-            ReviewLens generated this analysis from
-            real app reviews.
+            ReviewLens generated this analysis from real app reviews.
           </motion.div>
         </motion.div>
       </Container>
     </main>
   );
 };
-
-

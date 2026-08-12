@@ -34,6 +34,10 @@ export const SearchBar = () => {
 
       // Send the URL to the backend
       const result = await analyzeApp(trimmedUrl);
+      sessionStorage.setItem(
+  "reviewlens:lastAnalysis",
+  JSON.stringify(result)
+);
 
       console.log("REAL REVIEWLENS ANALYSIS:", result);
 

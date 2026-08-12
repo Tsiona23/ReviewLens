@@ -25,7 +25,7 @@ export const previewData = {
   },
 
   verdict: {
-    verdict: "Highly Recommended",
+    verdict: "Worth Downloading",
     bestFor: "Students, developers, professionals, and anyone who wants an AI productivity assistant.",
     avoidIf: "You need consistently perfect answers or access to every feature for free.",
     confidence: 96,
