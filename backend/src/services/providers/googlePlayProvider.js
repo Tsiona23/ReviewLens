@@ -1,109 +1,73 @@
 
-import {
-  app,
-  reviews,
-  sort,
-} from "@mradex77/google-play-scraper";
+
+import gplay from "@mradex77/google-play-scraper";
+
+// ========================================
+// GET GOOGLE PLAY APP INFORMATION
+// ========================================
 
 export async function getGooglePlayApp(appId) {
-  if (!appId) {
-    throw new Error("Google Play app ID is required.");
-  }
+  console.log(`Fetching Google Play app information for: ${appId}`);
 
   try {
-    console.log(`Fetching app information for: ${appId}`);
-
-    const appData = await app({
+    const result = await gplay.app({
       appId,
       lang: "en",
       country: "us",
     });
 
     return {
-      appId,
-      title: appData.title || "Unknown App",
-      developer: appData.developer || "Unknown Developer",
-      category:
-        appData.genre ||
-        appData.category ||
-        "Unknown Category",
-      rating: Number(
-        appData.score ||
-        appData.rating ||
-        0
-      ),
-      icon:
-        appData.icon ||
-        appData.iconUrl ||
-        appData.thumbnail ||
-        null,
-      url:
-        appData.url ||
-        `https://play.google.com/store/apps/details?id=${appId}`,
+      appId: result.appId,
+      title: result.title,
+      developer: result.developer,
+      category: result.genre,
+      rating: result.score,
+      icon: result.icon,
+      url: result.url,
     };
   } catch (error) {
-    console.error(
-      "Google Play app information error:",
-      error.message
-    );
+    console.error("Google Play app error:", error);
 
-    throw new Error(
-      "Unable to retrieve Google Play app information."
-    );
+    throw new Error("Unable to retrieve Google Play app information.");
   }
 }
 
+
+// ========================================
+// GET GOOGLE PLAY REVIEWS
+// ========================================
+
 export async function getGooglePlayReviews(appId) {
-  if (!appId) {
-    throw new Error("Google Play app ID is required.");
-  }
+  console.log(`Fetching reviews for: ${appId}`);
 
   try {
-    console.log(`Fetching reviews for: ${appId}`);
-
-    const result = await reviews({
+    const result = await gplay.reviews({
       appId,
       lang: "en",
       country: "us",
-      sort: sort.NEWEST,
-      num: 100,
+      sort: gplay.sort.HELPFULNESS,
+      num: 500,
     });
 
-    const reviewList = Array.isArray(result)
+    const reviews = Array.isArray(result)
       ? result
       : result.data || [];
 
-    console.log(`Received ${reviewList.length} reviews.`);
+    console.log(`Received ${reviews.length} reviews.`);
 
-    return reviewList.map((review, index) => ({
-      id: review.id || `google-${index}`,
-      rating: Number(
-        review.score ||
-        review.rating ||
-        0
-      ),
+    return reviews.map((review) => ({
+      id: review.id,
+      rating: Number(review.score),
       title: review.title || "",
-      body:
-        review.text ||
-        review.content ||
-        "",
-      language:
-        review.lang ||
-        "en",
-      date:
-        review.date ||
-        null,
+      body: review.text || "",
+      language: "en",
+      date: review.date,
       source: "google-play",
     }));
   } catch (error) {
-    console.error(
-      "Google Play review error:",
-      error.message
-    );
+    console.error("Google Play review error:", error);
 
-    throw new Error(
-      "Unable to retrieve Google Play reviews."
-    );
+    throw new Error("Unable to retrieve Google Play reviews.");
   }
 }
 
