@@ -71,65 +71,65 @@ export const SearchBar = () => {
       <form
         onSubmit={handleSubmit}
         id="app-url-input"
-        className="
-          flex
-          items-center
-          gap-3
-          p-2
-          rounded-2xl
-          border
-          border-gray-800
-          bg-gray-950
-          max-w-xl
-          transition
-          focus-within:border-blue-300/40
-          focus-within:ring-1
-          focus-within:ring-blue-300/20
-        "
+        className="flex max-w-xl flex-col gap-3 sm:flex-row"
       >
-        <label htmlFor="app-url" className="sr-only">
-          Paste app store URL
-        </label>
-
-        <Search
-          size={20}
-          className="ml-3 shrink-0 text-blue-300"
-          aria-hidden="true"
-        />
-
-        <input
-          id="app-url"
-          value={appUrl}
-          onChange={(event) => {
-            setAppUrl(event.target.value);
-
-            // Remove the error once the user starts correcting the input
-            if (error) {
-              setError("");
-            }
-          }}
-          type="url"
-          inputMode="url"
-          placeholder="Paste app store URL..."
-          disabled={loading}
-          aria-invalid={Boolean(error)}
-          aria-describedby={error ? "app-url-error" : undefined}
+        <div
           className="
+            flex
             flex-1
-            min-w-0
-            bg-transparent
-            outline-none
-            text-gray-300
-            placeholder:text-gray-500
-            px-2
-            disabled:opacity-50
+            items-center
+            gap-3
+            rounded-2xl
+            border
+            border-gray-800
+            bg-gray-950
+            p-2
+            pl-4
+            transition
+            focus-within:border-blue-300/40
+            focus-within:ring-1
+            focus-within:ring-blue-300/20
           "
-        />
+        >
+          <label htmlFor="app-url" className="sr-only">
+            Paste app store URL
+          </label>
+
+          <Search
+            size={20}
+            className="shrink-0 text-blue-300"
+            aria-hidden="true"
+          />
+
+          <input
+            id="app-url"
+            value={appUrl}
+            onChange={(event) => {
+              setAppUrl(event.target.value);
+
+              // Remove the error once the user starts correcting the input
+              if (error) {
+                setError("");
+              }
+            }}
+            type="url"
+            inputMode="url"
+            placeholder="Paste app store URL..."
+            disabled={loading}
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? "app-url-error" : undefined}
+            className="
+              min-w-0 flex-1 bg-transparent px-2 text-gray-300
+              placeholder:text-gray-500 disabled:opacity-50
+              outline-none
+            "
+          />
+        </div>
 
         <Button
           type="submit"
           disabled={loading}
-          className="py-3 px-6 shrink-0"
+          className="w-full shrink-0 px-6 py-3 sm:w-auto"
         >
           {loading ? "Analyzing..." : "Analyze"}
         </Button>
@@ -153,4 +153,3 @@ export const SearchBar = () => {
     </div>
   );
 };
-
