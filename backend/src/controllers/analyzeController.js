@@ -1,7 +1,7 @@
-
 import { analyzeReviews } from "../services/aiService.js";
 import { getReviewsFromUrl } from "../services/reviewService.js";
 import { sampleReviews } from "../utils/sampleReviews.js";
+import { calculateSentiment } from "../utils/calculateSentiment.js";
 
 export async function analyzeController(req, res) {
   try {
@@ -21,7 +21,7 @@ export async function analyzeController(req, res) {
     // Limit the number of reviews sent to the AI
     const sampledReviews = sampleReviews(
       reviewData.reviews,
-      100
+      500
     );
 
     if (sampledReviews.length === 0) {
@@ -35,12 +35,82 @@ export async function analyzeController(req, res) {
       `Analyzing ${sampledReviews.length} reviews...`
     );
 
+    // Calculate sentiment directly from review ratings
+    const sentiment = calculateSentiment(
+      sampledReviews
+    );
+
+    console.log("Real sentiment:", sentiment);
+
     // Send REAL reviews to AI
     const analysis = await analyzeReviews(
       sampledReviews
     );
 
-    // Return everything to the frontend
+    // Replace Gemini's sentiment with the
+    // sentiment calculated from real ratings
+    analysis.sentiment = sentiment;
+
+    // ==========================================
+    // RATING DISTRIBUTION
+    // ==========================================
+
+    const ratingDistribution = sampledReviews.reduce(
+      (distribution, review) => {
+        const rating = Number(review.rating);
+
+        if (rating >= 1 && rating <= 5) {
+          distribution[rating] += 1;
+        }
+
+        return distribution;
+      },
+      {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+      }
+    );
+
+    // ==========================================
+    // REPRESENTATIVE REVIEWS
+    // ==========================================
+
+    const positiveReviews = sampledReviews
+      .filter((review) => Number(review.rating) >= 4)
+      .sort((a, b) => Number(b.rating) - Number(a.rating));
+
+    const negativeReviews = sampledReviews
+      .filter((review) => Number(review.rating) <= 2)
+      .sort((a, b) => Number(a.rating) - Number(b.rating));
+
+    const neutralReviews = sampledReviews.filter(
+      (review) => Number(review.rating) === 3
+    );
+
+    const representativeReviews = [
+      ...positiveReviews.slice(0, 2),
+      ...negativeReviews.slice(0, 2),
+      ...neutralReviews.slice(0, 1),
+    ].map((review) => ({
+      id: review.id,
+      rating: Number(review.rating),
+      body: review.body || review.text || "",
+      date: review.date || null,
+      language: review.language || "en",
+      source: review.source || review.store || "google-play",
+    }));
+
+    console.log(
+      `Selected ${representativeReviews.length} representative reviews.`
+    );
+
+    // ==========================================
+    // RETURN EVERYTHING TO FRONTEND
+    // ==========================================
+
     return res.json({
       success: true,
 
@@ -57,6 +127,10 @@ export async function analyzeController(req, res) {
       reviewStats: {
         totalAvailable: reviewData.reviews.length,
         analyzed: sampledReviews.length,
+
+        ratingDistribution,
+
+        representativeReviews,
       },
 
       analysis,
@@ -72,4 +146,5 @@ export async function analyzeController(req, res) {
     });
   }
 }
+
 
