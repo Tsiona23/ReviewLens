@@ -1,11 +1,18 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container } from "../components/ui/Container";
 import { Button } from "../components/ui/Button";
+import { LivePreview } from "../components/home/LivePreview";
 
 export const LandingPage = () => {
+  const navigate = useNavigate();
+  const [url, setUrl] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Analyzing URL...");
+    if (url.trim()) {
+      navigate(`/loading?url=${encodeURIComponent(url.trim())}`);
+    }
   };
 
   return (
@@ -39,6 +46,8 @@ export const LandingPage = () => {
                   id="app-url"
                   type="url"
                   required
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
                   className="block w-full rounded-xl border border-gray-800 bg-gray-950/50 px-5 py-3 text-base text-gray-100 placeholder-gray-500 transition focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300/50"
                   placeholder="Enter Google Play or App Store URL"
                 />
@@ -50,7 +59,9 @@ export const LandingPage = () => {
           </div>
         </Container>
       </section>
-      {/* You would include the Live Preview Card component here */}
+
+      {/* Live Preview Section */}
+      <LivePreview />
     </div>
   );
 };
