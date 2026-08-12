@@ -8,7 +8,7 @@ export const MainLayout = () => {
     <div className="flex min-h-screen flex-col bg-black text-blue-300">
       <SkipToContent />
       <Navbar />
-      <main id="main-content" className="grow">
+      <main id="main-content" className="grow pt-20">
         <Outlet />
       </main>
       <Footer />
