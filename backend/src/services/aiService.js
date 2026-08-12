@@ -14,12 +14,10 @@ export async function analyzeReviews(reviews) {
   // Convert real reviews into a format the AI can understand.
   const reviewText = reviews
     .map((review, index) => {
-      return `
-Review ${index + 1}
+      return `Review ${index + 1}
 Rating: ${review.rating}/5
 Title: ${review.title || "No title"}
-Review: ${review.body || "No review text"}
-`;
+Review: ${review.body || "No review text"}`;
     })
     .join("\n");
 
@@ -29,11 +27,12 @@ You are ReviewLens, an AI system that analyzes real user reviews of mobile appli
 Your job is to identify the overall user experience from the provided reviews.
 
 IMPORTANT:
+
 - Analyze ONLY the reviews provided below.
 - Do not use outside knowledge about the app.
 - Do not invent features, complaints, or praise.
 - Identify recurring patterns rather than relying on one unusual review.
-- Ratings can help determine sentiment, but the written review should also be considered.
+- Ratings can help understand the reviews, but the written review should also be considered.
 - Keep the results concise and useful to someone deciding whether to download the app.
 
 REVIEWS:
@@ -56,12 +55,6 @@ Return an analysis using exactly this structure:
     "Third recurring negative point"
   ],
 
-  "sentiment": {
-    "positive": 0,
-    "neutral": 0,
-    "negative": 0
-  },
-
   "topics": [
     "Most frequently discussed topic",
     "Second most frequently discussed topic",
@@ -83,31 +76,28 @@ Return an analysis using exactly this structure:
 
 RULES:
 
-1. sentiment values must be percentages between 0 and 100.
+1. Include only recurring or meaningful themes in pros, cons, and topics.
 
-2. positive + neutral + negative MUST equal exactly 100.
+2. Do not invent information that does not appear in the reviews.
 
-3. sentiment should represent the overall reviews, not just the star ratings.
+3. Keep each pro and con short and specific.
 
-4. Include only recurring or meaningful themes in pros, cons, and topics.
+4. topics should contain 3-6 recurring themes.
 
-5. Do not invent information that does not appear in the reviews.
-
-6. Keep each pro and con short and specific.
-
-7. topics should contain 3-6 recurring themes.
-
-8. verdict MUST be exactly one of:
+5. verdict MUST be exactly one of:
    - "Worth Downloading"
    - "Maybe"
    - "Not Recommended"
 
-9. confidence MUST be an integer between 0 and 100.
+6. confidence MUST be an integer between 0 and 100.
 
-10. A high confidence score means the reviews provide strong and consistent evidence.
-    A lower score means the reviews are mixed, limited, or contradictory.
+7. A high confidence score means the reviews provide strong and consistent evidence.
+   A lower score means the reviews are mixed, limited, or contradictory.
 
-11. Return ONLY valid JSON.
+8. Do NOT generate sentiment percentages.
+   Sentiment is calculated separately by ReviewLens from the actual review ratings.
+
+9. Return ONLY valid JSON.
 `;
 
   try {
@@ -137,7 +127,9 @@ RULES:
     // Basic validation before returning the AI result.
     validateAnalysis(analysis);
 
-    console.log("AI analysis generated successfully.");
+    console.log(
+      "AI analysis generated successfully."
+    );
 
     return analysis;
   } catch (error) {
@@ -158,40 +150,26 @@ function validateAnalysis(analysis) {
   }
 
   if (typeof analysis.summary !== "string") {
-    throw new Error("AI analysis is missing a summary.");
-  }
-
-  if (!Array.isArray(analysis.pros)) {
-    throw new Error("AI analysis is missing pros.");
-  }
-
-  if (!Array.isArray(analysis.cons)) {
-    throw new Error("AI analysis is missing cons.");
-  }
-
-  if (!Array.isArray(analysis.topics)) {
-    throw new Error("AI analysis is missing topics.");
-  }
-
-  if (
-    !analysis.sentiment ||
-    typeof analysis.sentiment.positive !== "number" ||
-    typeof analysis.sentiment.neutral !== "number" ||
-    typeof analysis.sentiment.negative !== "number"
-  ) {
     throw new Error(
-      "AI analysis contains invalid sentiment data."
+      "AI analysis is missing a summary."
     );
   }
 
-  const sentimentTotal =
-    analysis.sentiment.positive +
-    analysis.sentiment.neutral +
-    analysis.sentiment.negative;
-
-  if (sentimentTotal !== 100) {
+  if (!Array.isArray(analysis.pros)) {
     throw new Error(
-      "AI sentiment percentages must total 100."
+      "AI analysis is missing pros."
+    );
+  }
+
+  if (!Array.isArray(analysis.cons)) {
+    throw new Error(
+      "AI analysis is missing cons."
+    );
+  }
+
+  if (!Array.isArray(analysis.topics)) {
+    throw new Error(
+      "AI analysis is missing topics."
     );
   }
 
@@ -202,7 +180,11 @@ function validateAnalysis(analysis) {
   }
 
   if (
-    !["Worth Downloading", "Maybe", "Not Recommended"].includes(
+    ![
+      "Worth Downloading",
+      "Maybe",
+      "Not Recommended",
+    ].includes(
       analysis.recommendation.verdict
     )
   ) {
@@ -212,7 +194,28 @@ function validateAnalysis(analysis) {
   }
 
   if (
-    typeof analysis.recommendation.confidence !== "number" ||
+    !Array.isArray(
+      analysis.recommendation.bestFor
+    )
+  ) {
+    throw new Error(
+      "AI recommendation is missing bestFor."
+    );
+  }
+
+  if (
+    !Array.isArray(
+      analysis.recommendation.avoidIf
+    )
+  ) {
+    throw new Error(
+      "AI recommendation is missing avoidIf."
+    );
+  }
+
+  if (
+    typeof analysis.recommendation.confidence !==
+      "number" ||
     analysis.recommendation.confidence < 0 ||
     analysis.recommendation.confidence > 100
   ) {
@@ -221,4 +224,5 @@ function validateAnalysis(analysis) {
     );
   }
 }
+
 
