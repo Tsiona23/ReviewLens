@@ -1,712 +1,333 @@
-import { Check, X, Sparkles, Star, BarChart3 } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Card } from "../ui/Card";
 
-const statsContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
+const previewSections = [
+  {
+    title: "App Overview",
+    description:
+      "App information, store details, rating and review statistics",
   },
-};
+  {
+    title: "AI Summary",
+    description:
+      "A concise overview of what users are saying",
+  },
+  {
+    title: "Sentiment Analysis",
+    description:
+      "Positive, neutral and negative sentiment insights",
+  },
+  {
+    title: "Key Topics",
+    description:
+      "Recurring themes and issues found in user feedback",
+  },
+  {
+    title: "AI Recommendation",
+    description:
+      "Actionable insights based on user feedback",
+  },
+];
 
-const statItemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
+const sectionVariants = {
+  hidden: {
+    opacity: 0,
+    x: -8,
+  },
+
+  visible: (index) => ({
     opacity: 1,
+    x: 0,
+
     transition: {
-      duration: 0.5,
+      delay: 0.4 + index * 0.08,
+      duration: 0.3,
       ease: "easeOut",
     },
-  },
+  }),
 };
 
-export const PreviewCard = ({ data }) => {
-  if (!data) {
-    return null;
-  }
-
-  /*
-   * Your real backend response has this structure:
-   *
-   * {
-   *   app: {...},
-   *   reviewStats: {...},
-   *   analysis: {...}
-   * }
-   */
-
-  const app = data.app || {};
-  const analysis = data.analysis || {};
-  const reviewStats = data.reviewStats || {};
-
-  const sentiment = analysis.sentiment || {};
-
-  const recommendation = analysis.recommendation || {};
-
-  const positive = Number(sentiment.positive || 0);
-  const neutral = Number(sentiment.neutral || 0);
-  const negative = Number(sentiment.negative || 0);
-
-  const analyzedReviews = reviewStats.analyzed || 0;
-
-  const rating = app.rating
-    ? Number(app.rating).toFixed(1)
-    : "—";
-
+export const PreviewCard = () => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        delay: 0.3,
-        duration: 0.6,
+        duration: 0.5,
+        ease: "easeOut",
       }}
+      className="w-full"
     >
       <Card
         role="region"
         aria-labelledby="preview-card-heading"
         className="
           relative
+          mx-auto
+          w-full
+          max-w-sm
           overflow-hidden
+          rounded-2xl
           border
           border-gray-800
-          bg-gray-950/80
-          p-3
-          shadow-xl
+          bg-[#09090b]
+          p-0
+          shadow-2xl
         "
       >
-        {/* Glow */}
+        {/* Ambient Glow */}
+
         <div
           className="
+            pointer-events-none
             absolute
-            -right-20
-            -top-20
-            h-60
-            w-60
+            -right-24
+            -top-24
+            h-56
+            w-56
             rounded-full
             bg-blue-300/10
-            blur-[100px]
+            blur-[90px]
           "
           aria-hidden="true"
         />
 
-        <div className="relative flex flex-col gap-4">
+        {/* ========================= */}
+        {/* TERMINAL TITLE BAR */}
+        {/* ========================= */}
 
-          {/* ========================= */}
-          {/* HEADER */}
-          {/* ========================= */}
+        <div
+          className="
+            relative
+            flex
+            h-10
+            items-center
+            border-b
+            border-gray-800
+            bg-gray-950
+            px-3
+          "
+        >
+          {/* macOS Controls */}
 
-          <div
-            className="
-              flex
-              flex-col
-              gap-6
-              md:flex-row
-              md:items-end
-              md:justify-between
-            "
-          >
-            <div>
-              {/* Badge */}
+          <div className="flex items-center gap-1.5">
+            <span
+              className="h-2.5 w-2.5 rounded-full bg-red-400"
+              aria-label="Close"
+            />
 
-              <div
-                className="
-                  inline-flex
-                  items-center
-                  gap-2
-                  rounded-full
-                  border
-                  border-blue-300/20
-                  bg-blue-300/10
-                  px-3
-                  py-1
-                  text-xs
-                  uppercase
-                  tracking-widest
-                  text-blue-300
-                "
-              >
-                <Sparkles size={14} aria-hidden="true" />
-                LIVE AI ANALYSIS
-              </div>
+            <span
+              className="h-2.5 w-2.5 rounded-full bg-yellow-400"
+              aria-label="Minimize"
+            />
 
-              {/* App name */}
-
-              <h2
-                id="preview-card-heading"
-                className="mt-3 text-lg font-bold text-white"
-              >
-                {app.title || "Analyzed App"}
-              </h2>
-
-              {/* Developer */}
-
-              <p className="mt-1 text-xs text-gray-400">
-                {app.developer || "Unknown developer"}
-              </p>
-
-              {/* Reviews */}
-
-              {analyzedReviews > 0 && (
-                <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                  <BarChart3 size={14} />
-
-                  {analyzedReviews} real reviews analyzed
-                </div>
-              )}
-            </div>
-
-            {/* ========================= */}
-            {/* STATS */}
-            {/* ========================= */}
-
-            <motion.div
-              className="grid grid-cols-2 gap-4"
-              variants={statsContainerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.5,
-              }}
-            >
-              {/* Rating */}
-
-              <motion.div variants={statItemVariants}>
-                <div
-                  className="
-                    rounded-lg
-                    border
-                    border-gray-800
-                    bg-black/50
-                    p-3
-                    text-center
-                  "
-                >
-                  <p
-                    className="
-                      flex
-                      items-center
-                      justify-center
-                      gap-1
-                      text-lg
-                      font-bold
-                      text-blue-300
-                    "
-                    aria-label={`${rating} stars`}
-                  >
-                    <Star
-                      size={16}
-                      fill="currentColor"
-                      aria-hidden="true"
-                    />
-
-                    {rating}
-                  </p>
-
-                  <p
-                    className="
-                      mt-1
-                      text-xs
-                      text-gray-400
-                    "
-                  >
-                    Rating
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Confidence */}
-
-              <motion.div variants={statItemVariants}>
-                <div
-                  className="
-                    rounded-lg
-                    border
-                    border-gray-800
-                    bg-black/50
-                    p-3
-                    text-center
-                  "
-                >
-                  <p
-                    className="
-                      text-lg
-                      font-bold
-                      text-blue-300
-                    "
-                  >
-                    {recommendation.confidence ?? "—"}%
-                  </p>
-
-                  <p
-                    className="
-                      mt-1
-                      text-xs
-                      text-gray-400
-                    "
-                  >
-                    AI Confidence
-                  </p>
-                </div>
-              </motion.div>
-            </motion.div>
+            <span
+              className="h-2.5 w-2.5 rounded-full bg-green-400"
+              aria-label="Maximize"
+            />
           </div>
 
-          {/* ========================= */}
-          {/* AI SUMMARY */}
-          {/* ========================= */}
+          {/* Terminal Title */}
 
           <div
             className="
-              rounded-lg
-              border
-              border-gray-800
-              bg-black/40
-              p-4
+              absolute
+              left-1/2
+              -translate-x-1/2
+              whitespace-nowrap
+              font-mono
+              text-[10px]
+              text-gray-500
             "
           >
-            <h3
+            reviewlens — results
+          </div>
+        </div>
+
+        {/* ========================= */}
+        {/* TERMINAL CONTENT */}
+        {/* ========================= */}
+
+        <div
+          className="
+            relative
+            p-3
+            font-mono
+            sm:p-4
+          "
+        >
+          {/* Command */}
+
+          <div className="flex items-center gap-2 text-xs">
+            <span className="text-blue-300">$</span>
+
+            <span className="text-gray-200">
+              reviewlens analyze
+            </span>
+
+            <span
               className="
-                mb-3
-                flex
-                items-center
-                gap-2
+                h-3
+                w-0.5
+                animate-pulse
+                bg-blue-300
+              "
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* Status Messages */}
+
+          <div className="mt-3 space-y-1.5 text-[11px]">
+            <div className="flex items-center gap-2 text-gray-500">
+              <Check
+                size={12}
+                className="text-green-400"
+                aria-hidden="true"
+              />
+
+              <span>Reviews analyzed</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-gray-500">
+              <Check
+                size={12}
+                className="text-green-400"
+                aria-hidden="true"
+              />
+
+              <span>Sentiment insights generated</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-gray-500">
+              <Check
+                size={12}
+                className="text-green-400"
+                aria-hidden="true"
+              />
+
+              <span>AI summary generated</span>
+            </div>
+          </div>
+
+          {/* Divider */}
+
+          <div className="my-4 h-px w-full bg-gray-800" />
+
+          {/* Results Header */}
+
+          <div className="mb-3 flex items-center gap-2">
+            <Sparkles
+              size={13}
+              className="text-blue-300"
+              aria-hidden="true"
+            />
+
+            <h2
+              id="preview-card-heading"
+              className="
+                text-xs
                 font-semibold
+                tracking-wider
                 text-blue-300
               "
             >
-              <Sparkles size={16} />
-
-              AI Summary
-            </h3>
-
-            <p
-              className="
-                text-sm
-                leading-6
-                text-gray-300
-              "
-            >
-              {analysis.summary ||
-                "Analyze an app to generate a real AI-powered summary from its reviews."}
-            </p>
+              RESULTS
+            </h2>
           </div>
 
-          {/* ========================= */}
-          {/* PROS & CONS */}
-          {/* ========================= */}
+          {/* Results Sections */}
 
-          <div className="grid gap-6 md:grid-cols-2">
-
-            {/* PROS */}
-
-            <div>
-              <h3
+          <div className="space-y-1.5">
+            {previewSections.map((section, index) => (
+              <motion.div
+                key={section.title}
+                custom={index}
+                variants={sectionVariants}
+                initial="hidden"
+                animate="visible"
                 className="
-                  mb-4
-                  font-semibold
-                  text-green-400
+                  group
+                  rounded-lg
+                  border
+                  border-gray-800/80
+                  bg-black/30
+                  px-2.5
+                  py-2
+                  transition-colors
+                  hover:border-blue-300/20
+                  hover:bg-blue-300/3
                 "
               >
-                Pros
-              </h3>
+                <div className="flex items-start gap-2.5">
+                  {/* Terminal Indicator */}
 
-              <ul className="space-y-3">
-                {analysis.pros?.length > 0 ? (
-                  analysis.pros.map((item, index) => (
-                    <li
-                      key={`${item}-${index}`}
-                      className="
-                        flex
-                        items-start
-                        gap-2
-                      "
-                    >
-                      <div
-                        className="
-                          rounded-full
-                          bg-green-400/10
-                          p-1
-                        "
-                      >
-                        <Check
-                          size={14}
-                          className="text-green-400"
-                          aria-hidden="true"
-                        />
-                      </div>
-
-                      <span
-                        className="
-                          text-sm
-                          text-gray-300
-                        "
-                      >
-                        {item}
-                      </span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-sm text-gray-500">
-                    No pros available.
-                  </li>
-                )}
-              </ul>
-            </div>
-
-            {/* CONS */}
-
-            <div>
-              <h3
-                className="
-                  mb-4
-                  font-semibold
-                  text-red-400
-                "
-              >
-                Cons
-              </h3>
-
-              <ul className="space-y-3">
-                {analysis.cons?.length > 0 ? (
-                  analysis.cons.map((item, index) => (
-                    <li
-                      key={`${item}-${index}`}
-                      className="
-                        flex
-                        items-start
-                        gap-2
-                      "
-                    >
-                      <div
-                        className="
-                          rounded-full
-                          bg-red-400/10
-                          p-1
-                        "
-                      >
-                        <X
-                          size={14}
-                          className="text-red-400"
-                          aria-hidden="true"
-                        />
-                      </div>
-
-                      <span
-                        className="
-                          text-sm
-                          text-gray-300
-                        "
-                      >
-                        {item}
-                      </span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-sm text-gray-500">
-                    No cons available.
-                  </li>
-                )}
-              </ul>
-            </div>
-          </div>
-
-          {/* ========================= */}
-          {/* SENTIMENT */}
-          {/* ========================= */}
-
-          <div>
-            <div
-              className="
-                mb-3
-                flex
-                items-center
-                justify-between
-              "
-            >
-              <h3 className="font-semibold text-white">
-                Review Sentiment
-              </h3>
-
-              <span className="text-xs text-gray-500">
-                Based on {analyzedReviews} reviews
-              </span>
-            </div>
-
-            <motion.div
-              className="
-                grid
-                grid-cols-1
-                gap-4
-                sm:grid-cols-3
-              "
-              variants={statsContainerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.5,
-              }}
-            >
-              {/* Positive */}
-
-              <motion.div variants={statItemVariants}>
-                <Card
-                  className="
-                    border
-                    border-gray-800
-                    bg-black/50
-                    p-3
-                    text-center
-                  "
-                >
-                  <p
+                  <span
                     className="
-                      text-lg
-                      font-bold
-                      text-green-400
-                    "
-                  >
-                    {positive}%
-                  </p>
-
-                  <p
-                    className="
-                      mt-1
-                      text-xs
-                      text-gray-400
-                    "
-                  >
-                    Positive
-                  </p>
-                </Card>
-              </motion.div>
-
-              {/* Neutral */}
-
-              <motion.div variants={statItemVariants}>
-                <Card
-                  className="
-                    border
-                    border-gray-800
-                    bg-black/50
-                    p-3
-                    text-center
-                  "
-                >
-                  <p
-                    className="
-                      text-lg
-                      font-bold
+                      mt-0.5
+                      shrink-0
                       text-blue-300
                     "
+                    aria-hidden="true"
                   >
-                    {neutral}%
-                  </p>
+                    ▸
+                  </span>
 
-                  <p
-                    className="
-                      mt-1
-                      text-xs
-                      text-gray-400
-                    "
-                  >
-                    Neutral
-                  </p>
-                </Card>
+                  <div className="min-w-0">
+                    <h3
+                      className="
+                        text-[11px]
+                        font-semibold
+                        text-gray-200
+                      "
+                    >
+                      {section.title}
+                    </h3>
+
+                    <p
+                      className="
+                        mt-0.5
+                        text-[10px]
+                        leading-4
+                        text-gray-500
+                      "
+                    >
+                      {section.description}
+                    </p>
+                  </div>
+                </div>
               </motion.div>
-
-              {/* Negative */}
-
-              <motion.div variants={statItemVariants}>
-                <Card
-                  className="
-                    border
-                    border-gray-800
-                    bg-black/50
-                    p-3
-                    text-center
-                  "
-                >
-                  <p
-                    className="
-                      text-lg
-                      font-bold
-                      text-red-400
-                    "
-                  >
-                    {negative}%
-                  </p>
-
-                  <p
-                    className="
-                      mt-1
-                      text-xs
-                      text-gray-400
-                    "
-                  >
-                    Negative
-                  </p>
-                </Card>
-              </motion.div>
-            </motion.div>
+            ))}
           </div>
 
-          {/* ========================= */}
-          {/* VERDICT */}
-          {/* ========================= */}
+          {/* Terminal Footer */}
 
-          {recommendation.verdict && (
-            <div
+          <div
+            className="
+              mt-3
+              flex
+              items-center
+              gap-1.5
+              text-[10px]
+              text-gray-500
+            "
+          >
+            <span className="text-blue-300">$</span>
+
+            <span>_</span>
+
+            <span
               className="
-                rounded-lg
-                border
-                border-blue-300/20
-                bg-blue-300/5
-                p-4
+                h-2.5
+                w-0.5
+                animate-pulse
+                bg-gray-500
               "
-            >
-              <h3
-                className="
-                  mb-3
-                  font-semibold
-                  text-blue-300
-                "
-              >
-                AI Verdict
-              </h3>
-
-              <p
-                className="
-                  text-lg
-                  font-bold
-                  text-white
-                "
-              >
-                {recommendation.verdict}
-              </p>
-
-              {/* Best For */}
-
-              {recommendation.bestFor?.length > 0 && (
-                <div className="mt-4">
-                  <p
-                    className="
-                      mb-1
-                      text-sm
-                      font-medium
-                      text-gray-400
-                    "
-                  >
-                    Best For
-                  </p>
-
-                  <ul className="space-y-1">
-                    {recommendation.bestFor.map(
-                      (item, index) => (
-                        <li
-                          key={`${item}-${index}`}
-                          className="
-                            text-sm
-                            leading-6
-                            text-gray-300
-                          "
-                        >
-                          • {item}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              )}
-
-              {/* Avoid If */}
-
-              {recommendation.avoidIf?.length > 0 && (
-                <div className="mt-4">
-                  <p
-                    className="
-                      mb-1
-                      text-sm
-                      font-medium
-                      text-gray-400
-                    "
-                  >
-                    Avoid If
-                  </p>
-
-                  <ul className="space-y-1">
-                    {recommendation.avoidIf.map(
-                      (item, index) => (
-                        <li
-                          key={`${item}-${index}`}
-                          className="
-                            text-sm
-                            leading-6
-                            text-gray-300
-                          "
-                        >
-                          • {item}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              )}
-
-              {/* Confidence */}
-
-              {recommendation.confidence !== undefined && (
-                <div className="mt-4">
-                  <span className="text-sm text-gray-400">
-                    Verdict confidence:
-                  </span>{" "}
-                  <span className="font-semibold text-blue-300">
-                    {recommendation.confidence}%
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ========================= */}
-          {/* REAL DATA INDICATOR */}
-          {/* ========================= */}
-
-          {analyzedReviews > 0 && (
-            <div
-              className="
-                flex
-                items-center
-                justify-center
-                gap-2
-                border-t
-                border-gray-800
-                pt-4
-                text-center
-                text-xs
-                text-gray-500
-              "
-            >
-              <span
-                className="
-                  h-2
-                  w-2
-                  rounded-full
-                  bg-green-400
-                "
-              />
-
-              Analysis generated from real app reviews
-            </div>
-          )}
+              aria-hidden="true"
+            />
+          </div>
         </div>
       </Card>
     </motion.div>
