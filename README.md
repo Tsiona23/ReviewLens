@@ -2,11 +2,9 @@ ReviewLens is a full-stack web application that uses AI to analyze app reviews a
 
 Currently, ReviewLens supports **Google Play Store review analysis**. Apple App Store support is planned and still under development.
 
-```
-🌐 Live Demo
-https://review-lens-wine.vercel.app/
+## 🌐 Live Demo
 
-```
+[**ReviewLens — Live Demo**](https://review-lens-wine.vercel.app)
 
 ## Features
 
@@ -150,57 +148,39 @@ Ensure you have the following installed:
 
 1. **Clone the repository:**
 
-   ```
+   ```bash
    git clone https://github.com/Tsiona23/ReviewLens.git
    cd ReviewLens
-
    ```
 
-2. **Backend Setup:** Navigate to the **`backend`** directory, install dependencies, and configure environment variables.
+Backend Setup:
 
-   ```
-   cd backend
-   npm install
+Navigate to the backend directory and install dependencies:
 
-   ```
+cd backend
+npm install
 
-   Create a **`.env`** file in the **`backend`** directory by copying **`.env.example`**.
-   On Windows, you can simply create a new .env file manually.
+Create a .env file inside the backend directory and add the required environment variables, such as your Gemini API key.
 
-   ```
-   cp .env.example .env
+Start the backend:
 
-   ```
+npm start
 
-   Open **`.env`** and configure any necessary API keys or settings (e.g., for AI services, port numbers).
+The backend will run on:
 
-   Start the backend server:
+http://localhost:5000
 
-   ```
-   npm start
-   # Or for development with hot-reloading (if configured):
-   # npm run dev
+Frontend Setup:
 
-   ```
+Open a new terminal and navigate to the frontend directory:
 
-   The backend server will typically run on **`http://localhost:5000`** (or as configured in **`.env`**).
+cd frontend
+npm install
+npm run dev
 
-3. **Frontend Setup:** Open a new terminal, navigate to the **`frontend`** directory, and install dependencies.
+The frontend will run on:
 
-   ```
-   cd ../frontend
-   npm install
-
-   ```
-
-   Start the frontend development server:
-
-   ```
-   npm run dev
-
-   ```
-
-   The frontend application will typically open in your browser at **`http://localhost:5173`** (or as indicated by Vite).
+http://localhost:5173
 
 ## Usage
 
