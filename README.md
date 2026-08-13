@@ -30,13 +30,24 @@ Currently, ReviewLens supports **Google Play Store review analysis**. Apple App 
 **Frameworks & Libraries:**
 
 - **Frontend**:
-  - React.js (for building the user interface)
-  - Vite (as a fast build tool for the frontend)
+  - React.js — UI development
+  - Vite — Frontend build tool
+  - Tailwind CSS — Styling and responsive design
+  - Framer Motion — Animations and transitions
+  - Lucide React — Icons
+  - Recharts — Data visualization
+
 - **Backend**:
-  - Node.js (runtime environment)
-  - Express.js (web application framework)
-- **AI/ML**:
-  - Implied use of AI/ML libraries/APIs for sentiment analysis and topic extraction (e.g., via **`aiService.js`**).
+  - Node.js — JavaScript runtime
+  - Express.js — REST API framework
+  - CORS — Cross-origin resource sharing
+  - dotenv — Environment variable management
+
+- **AI**:
+  - Google Gemini API — AI-powered review analysis and insights
+
+- **Review Data**:
+  - Google Play review scraper — Google Play app and review data
 
 ## Project Structure
 
