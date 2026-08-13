@@ -135,8 +135,6 @@ ReviewLens/
         │
         ├── services/
         │   ├── analyzeService.js
-        │   ├── appService.js
-        │   └── storageService.js
         │
         ├── styles/
         │
